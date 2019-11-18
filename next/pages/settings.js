@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useFetchUser } from "../lib/user";
 import Layout from "../components/layout";
+import fetch from "isomorphic-unfetch";
 
 function Settings({ user }) {
   const [nickname, setNickname] = useState(user.nickname);
@@ -11,11 +12,26 @@ function Settings({ user }) {
       <h1>Settings</h1>
 
       <form
-        onSubmit={e => {
+        onSubmit={async e => {
           e.preventDefault();
           setSubmitting(true);
 
-          const nickname = e.target.elements.nickname.value;
+          const response = await fetch("/api/me", {
+            method: "PATCH",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ nickname: e.target.elements.nickname.value })
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            location.reload();
+          } else {
+            setSubmitting(false);
+            alert(`${response.status}: ${response.statusText}`);
+          }
         }}
       >
         <h3>General</h3>
@@ -92,7 +108,6 @@ function Settings({ user }) {
 
 function Profile() {
   const { user, loading } = useFetchUser({ required: true });
-
   return (
     <Layout user={user} loading={loading}>
       {loading ? <>Loading...</> : <Settings user={user} />}

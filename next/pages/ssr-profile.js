@@ -12,12 +12,22 @@ function Profile({ user }) {
 
       <div>
         <h3>Profile (server rendered)</h3>
-        <img src={user.picture} alt="user picture" />
+        <p>
+          <strong>Avatar:</strong>
+          <br />
+          <img src={user.picture} alt="user picture" />
+        </p>
+        <p>
+          <strong>User id:</strong> {user.sub}
+        </p>
         <p>
           <strong>Nickname:</strong> {user.nickname}
         </p>
         <p>
           <strong>Name:</strong> {user.name}
+        </p>
+        <p>
+          <strong>Updated at:</strong> {user.updated_at}
         </p>
       </div>
     </Layout>

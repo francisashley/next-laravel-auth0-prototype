@@ -11,13 +11,23 @@ function ProfileCard({ user }) {
       <h1>Profile</h1>
 
       <div>
-        <h3>Profile (server rendered)</h3>
-        <img src={user.picture} alt="user picture" />
+        <h3>Profile (client rendered)</h3>
+        <p>
+          <strong>Avatar:</strong>
+          <br />
+          <img src={user.picture} alt="user picture" />
+        </p>
+        <p>
+          <strong>User id:</strong> {user.sub}
+        </p>
         <p>
           <strong>Nickname:</strong> {user.nickname}
         </p>
         <p>
           <strong>Name:</strong> {user.name}
+        </p>
+        <p>
+          <strong>Updated at:</strong> {user.updated_at}
         </p>
       </div>
     </>
