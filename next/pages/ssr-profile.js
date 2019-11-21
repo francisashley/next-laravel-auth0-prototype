@@ -7,26 +7,17 @@ import Layout from "../components/layout";
 
 function Profile({ user }) {
   return (
-    <Layout user={user}>
-      <h1>Profile</h1>
-
-      <div>
-        <h3>Profile (server rendered)</h3>
-        <p>
-          <strong>Avatar:</strong>
-          <br />
-          <img src={user.picture} alt="user picture" />
-        </p>
-        <p>
-          <strong>User id:</strong> {user.sub}
-        </p>
-        <p>
-          <strong>Username:</strong> {user.name}
-        </p>
-        <p>
-          <strong>Updated at:</strong> {user.updated_at}
-        </p>
-      </div>
+    <Layout user={user} title="Profile (server rendered)">
+      <img className="float-left mr-4" src={user.picture} alt="user picture" />
+      <p className="mb-2">
+        <strong>Username:</strong> {user.name}
+      </p>
+      <p className="mb-2">
+        <strong>User id:</strong> {user.sub}
+      </p>
+      <p className="mb-2">
+        <strong>Updated at:</strong> {user.updated_at}
+      </p>
     </Layout>
   );
 }

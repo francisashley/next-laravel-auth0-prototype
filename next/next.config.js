@@ -1,7 +1,9 @@
+const withCSS = require("@zeit/next-css");
+
 const dotenv = require("dotenv");
 dotenv.config();
 
-module.exports = {
+module.exports = withCSS({
   env: {
     AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
     AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
@@ -13,4 +15,4 @@ module.exports = {
     REDIRECT_URI: process.env.REDIRECT_URI,
     POST_LOGOUT_REDIRECT_URI: process.env.POST_LOGOUT_REDIRECT_URI
   }
-};
+});

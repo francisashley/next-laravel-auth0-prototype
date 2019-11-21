@@ -1,16 +1,16 @@
-import Link from "next/link";
+import Link from "./ActiveLink";
 
 function Header({ user, loading }) {
   return (
-    <header>
-      <nav>
-        <ul>
-          <li>
+    <header className="app-header overflow-auto bg-gray-800">
+      <nav className="max-w-3xl mx-auto my-6">
+        <ul className="flex">
+          <li className="mr-4">
             <Link href="/">
               <a>Home</a>
             </Link>
           </li>
-          <li>
+          <li className="mr-auto">
             <Link href="/about">
               <a>About</a>
             </Link>
@@ -18,65 +18,39 @@ function Header({ user, loading }) {
           {!loading &&
             (user ? (
               <>
-                <li>
+                <li className="mr-4">
                   <Link href="/profile">
                     <a>Profile (client)</a>
                   </Link>
                 </li>
-                <li>
+                <li className="mr-4">
                   <Link href="/ssr-profile">
                     <a>Profile (SSR)</a>
                   </Link>
                 </li>
-                <li>
+                <li className="mr-4">
                   <Link href="/settings">
                     <a>Settings</a>
                   </Link>
                 </li>
-                <li>
+                <li className="mr-4">
                   <a href="/api/logout">Logout</a>
                 </li>
               </>
             ) : (
-              <li>
+              <li className="mr-4">
                 <a href="/api/login">Login</a>
               </li>
             ))}
         </ul>
       </nav>
-
-      <style jsx>{`
-        header {
-          padding: 0.2rem;
-          color: #fff;
-          background-color: #333;
+      <style jsx global>{`
+        .app-header a {
+          color: rgba(255, 255, 255, 0.6);
         }
-        nav {
-          max-width: 42rem;
-          margin: 1.5rem auto;
-        }
-        ul {
-          display: flex;
-          list-style: none;
-          margin-left: 0;
-          padding-left: 0;
-        }
-        li {
-          margin-right: 1rem;
-        }
-        li:nth-child(2) {
-          margin-right: auto;
-        }
-        a {
-          color: #fff;
-          text-decoration: none;
-        }
-        button {
-          font-size: 1rem;
-          color: #fff;
-          cursor: pointer;
-          border: none;
-          background: none;
+        .app-header a:hover,
+        .app-header .active {
+          color: white;
         }
       `}</style>
     </header>

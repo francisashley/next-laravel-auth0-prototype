@@ -4,112 +4,68 @@ import Layout from "../components/layout";
 import fetch from "isomorphic-unfetch";
 
 function Settings({ user }) {
-  const [nickname, setNickname] = useState(user.nickname);
+  const [name, setNickname] = useState(user.name);
   const [submitting, setSubmitting] = useState(false);
 
   return (
-    <>
-      <h1>Settings</h1>
+    <form
+      className="jsx-2275513050 shadow rounded bg-white pt-2 pb-4 px-6"
+      onSubmit={async e => {
+        e.preventDefault();
+        setSubmitting(true);
 
-      <form
-        onSubmit={async e => {
-          e.preventDefault();
-          setSubmitting(true);
+        const response = await fetch("/api/me", {
+          method: "PATCH",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ name: e.target.elements.name.value })
+        });
 
-          const response = await fetch("/api/me", {
-            method: "PATCH",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ nickname: e.target.elements.nickname.value })
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            location.reload();
-          } else {
-            setSubmitting(false);
-            alert(`${response.status}: ${response.statusText}`);
-          }
-        }}
-      >
-        <h3>General</h3>
-        <div className="form-group">
-          <label htmlFor="nickname">Nickname </label>
+        if (response.ok) {
+          const data = await response.json();
+          location.reload();
+        } else {
+          setSubmitting(false);
+          alert(`${response.status}: ${response.statusText}`);
+        }
+      }}
+    >
+      <h3 className="font-semibold border-b py-4 mb-8">General</h3>
+      <div className="flex items-center max-w-lg mb-6">
+        <div className="w-1/3 text-right text-sm font-medium">
+          <label htmlFor="name" className="mr-6">
+            Username
+          </label>
+        </div>
+        <div className="w-2/3 flex">
           <input
             type="text"
-            value={nickname}
-            id="nickname"
+            value={name}
+            id="name"
             onChange={e => setNickname(e.target.value)}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
-        <div className="form-group">
-          <label></label>
-          <button type="submit">{!submitting ? "SAVE" : "Saving..."}</button>
-        </div>
-      </form>
-
-      <style jsx>{`
-        form {
-          background: #f5f5f5;
-          padding: 15px;
-        }
-        h3 {
-          font-size: 16px;
-          font-weight: 400;
-          border-bottom: lightgrey thin solid;
-          padding: 10px;
-          margin-top: 0;
-        }
-        .form-group {
-          margin-bottom: 15px;
-          display: flex;
-          align-items: center;
-          max-width: 450px;
-        }
-        label {
-          font-weight: 500;
-          margin-right: 1.5rem;
-          width: 25%;
-          text-align: right;
-          font-size: 14px;
-        }
-        input {
-          padding: 10px;
-          font-size: 14px;
-          border-radius: 4px;
-          border: thin solid lightgrey;
-          flex: 1;
-        }
-        button {
-          padding: 8px 15px;
-          background: hsl(199, 98%, 48%);
-          color: white;
-          border: thin rgba(0, 0, 0, 0.1) solid;
-          border-radius: 4px;
-          font-size: 12px;
-          font-weight: 200;
-          letter-spacing: 0.6px;
-          cursor: pointer;
-          outline: 0;
-          transition: background 150ms ease-out;
-        }
-        button:hover {
-          background: hsl(199, 98%, 44%);
-        }
-        button:active {
-          background: hsl(199, 98%, 38%);
-        }
-      `}</style>
-    </>
+      </div>
+      <div className="flex items-center max-w-lg mb-6">
+        <div className="w-1/3 text-right text-sm font-medium" />
+        <button
+          className="jsx-4078260806 bg-blue-500 hover:bg-blue-700 text-white font-regular text-sm py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="submit"
+        >
+          {!submitting ? "Save" : "Saving..."}
+        </button>
+      </div>
+    </form>
   );
 }
 
 function Profile() {
   const { user, loading } = useFetchUser({ required: true });
   return (
-    <Layout user={user} loading={loading}>
+    <Layout user={user} loading={loading} title="Settings">
       {loading ? <>Loading...</> : <Settings user={user} />}
     </Layout>
   );

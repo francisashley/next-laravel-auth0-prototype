@@ -8,25 +8,16 @@ import Layout from "../components/layout";
 function ProfileCard({ user }) {
   return (
     <>
-      <h1>Profile</h1>
-
-      <div>
-        <h3>Profile (client rendered)</h3>
-        <p>
-          <strong>Avatar:</strong>
-          <br />
-          <img src={user.picture} alt="user picture" />
-        </p>
-        <p>
-          <strong>User id:</strong> {user.sub}
-        </p>
-        <p>
-          <strong>Username:</strong> {user.name}
-        </p>
-        <p>
-          <strong>Updated at:</strong> {user.updated_at}
-        </p>
-      </div>
+      <img className="float-left mr-4" src={user.picture} alt="user picture" />
+      <p className="mb-2">
+        <strong>Username:</strong> {user.name}
+      </p>
+      <p className="mb-2">
+        <strong>User id:</strong> {user.sub}
+      </p>
+      <p className="mb-2">
+        <strong>Updated at:</strong> {user.updated_at}
+      </p>
     </>
   );
 }
@@ -35,7 +26,7 @@ function Profile() {
   const { user, loading } = useFetchUser({ required: true });
 
   return (
-    <Layout user={user} loading={loading}>
+    <Layout user={user} loading={loading} title="Profile (client rendered)">
       {loading ? <>Loading...</> : <ProfileCard user={user} />}
     </Layout>
   );
