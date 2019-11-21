@@ -21,10 +21,7 @@ function ProfileCard({ user }) {
           <strong>User id:</strong> {user.sub}
         </p>
         <p>
-          <strong>Nickname:</strong> {user.nickname}
-        </p>
-        <p>
-          <strong>Name:</strong> {user.name}
+          <strong>Username:</strong> {user.name}
         </p>
         <p>
           <strong>Updated at:</strong> {user.updated_at}
