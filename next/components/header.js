@@ -10,9 +10,14 @@ function Header({ user, loading }) {
               <a>Home</a>
             </Link>
           </li>
+          <li className="mr-4">
+            <Link href="/posts">
+              <a>Posts</a>
+            </Link>
+          </li>
           <li className="mr-auto">
-            <Link href="/about">
-              <a>About</a>
+            <Link href="/users">
+              <a>Users</a>
             </Link>
           </li>
           {!loading &&
@@ -20,7 +25,7 @@ function Header({ user, loading }) {
               <>
                 <li className="mr-4">
                   <Link href="/profile">
-                    <a>Profile (client)</a>
+                    <a>Profile</a>
                   </Link>
                 </li>
                 <li className="mr-4">
@@ -39,7 +44,7 @@ function Header({ user, loading }) {
               </>
             ) : (
               <li className="mr-4">
-                <a href="/api/login">Login</a>
+                <a href="/api/login">Log in</a>
               </li>
             ))}
         </ul>

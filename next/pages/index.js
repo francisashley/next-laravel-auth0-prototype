@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from "../components/layout";
 import { useFetchUser } from "../lib/user";
+import Link from "next/link";
 
 function Home() {
   const { user, loading } = useFetchUser();
@@ -10,22 +11,23 @@ function Home() {
       {loading && <p>Loading login info...</p>}
 
       {!loading && !user && (
-        <>
-          <p>
-            To test the login click in <i>Login</i>
-          </p>
-          <p>
-            Once you have logged in you should be able to click in <i>Profile</i> and <i>Logout</i>
-          </p>
-        </>
+        <p>
+          You are logged out. Would you like to{" "}
+          <Link href="/api/login">
+            <a>log in</a>
+          </Link>
+          ?
+        </p>
       )}
 
       {user && (
         <>
-          <h4 className="mb-4">Rendered user info on the client</h4>
-          <img src={user.picture} alt="user picture" className="mb-4" />
-          <p className="mb-2">
-            <strong>Name</strong>: {user.name}
+          <p>
+            You are logged in as <strong>{user.name}</strong>. Would you like to{" "}
+            <Link href="/api/logout">
+              <a>log out</a>
+            </Link>
+            ?
           </p>
         </>
       )}

@@ -5,3 +5,10 @@
 html {
   @apply bg-gray-100;
 }
+main a {
+  @apply text-blue-600;
+}
+main a:hover {
+
+  text-decoration: underline;
+}
