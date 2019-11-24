@@ -2,18 +2,18 @@ import React from "react";
 import Layout from "../../../components/layout";
 import { useFetchUser } from "../../../lib/user";
 
-function DeletePost({ postId }) {
+function DeleteArticle({ articleId }) {
   const { user, loading } = useFetchUser();
 
   return (
-    <Layout user={user} loading={loading} title={`Delete post: ${postId}`}>
+    <Layout user={user} loading={loading} title={`Delete article: ${articleId}`}>
       {loading && <p>Loading login info...</p>}
     </Layout>
   );
 }
 
-DeletePost.getInitialProps = ({ query }) => {
-  return { postId: query.id };
+DeleteArticle.getInitialProps = ({ query }) => {
+  return { articleId: query.id };
 };
 
-export default Post;
+export default DeleteArticle;

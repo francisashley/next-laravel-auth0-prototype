@@ -11,8 +11,8 @@ function Header({ user, loading }) {
             </Link>
           </li>
           <li className="mr-4">
-            <Link href="/posts">
-              <a>Posts</a>
+            <Link href="/articles">
+              <a>Articles</a>
             </Link>
           </li>
           <li className="mr-auto">

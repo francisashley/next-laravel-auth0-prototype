@@ -5,7 +5,7 @@ import Link from "next/link";
 function About() {
   const { user, loading } = useFetchUser();
 
-  const posts = [
+  const articles = [
     {
       title: "10 Facts Nobody Told You About Horses",
       slug: "10-facts-nobody-told-you-about-horses",
@@ -109,17 +109,17 @@ function About() {
   ];
 
   return (
-    <Layout user={user} loading={loading} title="Posts">
+    <Layout user={user} loading={loading} title="Articles">
       <ul>
-        {posts.map(post => (
+        {articles.map(article => (
           <li>
-            <Link href="/posts/[id]" as={`/posts/${post.slug}`}>
-              <a className="text-blue-600 hover:underline text-lg">{post.title}</a>
+            <Link href="/articles/[id]" as={`/articles/${article.slug}`}>
+              <a className="text-blue-600 hover:underline text-lg">{article.title}</a>
             </Link>
             <span className="text-gray-600 text-sm">
               {" ~ "}
-              <Link href="/users/[id]" as={`/users/${post.user}`}>
-                <a className="text-gray-600 hover:underline text-sm font-medium">{post.user}</a>
+              <Link href="/users/[id]" as={`/users/${article.user}`}>
+                <a className="text-gray-600 hover:underline text-sm font-medium">{article.user}</a>
               </Link>
             </span>
           </li>

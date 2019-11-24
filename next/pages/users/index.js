@@ -6,9 +6,9 @@ function About() {
   const { user, loading } = useFetchUser();
 
   const users = [
-    { username: "bluefish", totalPosts: 4 },
-    { username: "cornsilk", totalPosts: 7 },
-    { username: "khadia", totalPosts: 9 }
+    { username: "bluefish", totalArticles: 4 },
+    { username: "cornsilk", totalArticles: 7 },
+    { username: "khadia", totalArticles: 9 }
   ];
 
   return (
@@ -19,7 +19,7 @@ function About() {
             <Link href="/users/[id]" as={`/users/${user.username}`}>
               <a className="text-blue-600 hover:underline text-lg">{user.username}</a>
             </Link>
-            <span className="text-gray-600 text-sm">{` (${user.totalPosts} posts)`}</span>
+            <span className="text-gray-600 text-sm">{` (${user.totalArticles} articles)`}</span>
           </li>
         ))}
       </ul>

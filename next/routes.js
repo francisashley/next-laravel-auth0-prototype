@@ -3,7 +3,7 @@ const routes = require("next-routes");
 module.exports = routes()
   .add("about")
   .add("index")
-  .add("posts")
+  .add("articles")
   .add("profile")
   .add("settings")
   .add("ssr-profile")
