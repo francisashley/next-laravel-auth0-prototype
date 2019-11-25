@@ -1,13 +1,13 @@
 import React from "react";
-import auth0 from "../lib/auth0";
-import { fetchArticles } from "../lib/articles";
-import { fetchUser } from "../lib/user";
-import Layout from "../components/layout";
+import auth0 from "../../../lib/auth0";
+import { fetchArticles } from "../../../lib/articles";
+import { fetchUser } from "../../../lib/user";
+import Layout from "../../../components/layout";
 import Link from "next/link";
 
-function Profile({ user, articles = [] }) {
+function Profile({ user, articles = [], author }) {
   return (
-    <Layout user={user} title="Profile (server rendered)">
+    <Layout user={user} title={author}>
       <div className="shadow bg-white p-5 mb-5 rounded flex">
         <img className="mr-4" src={user.picture} alt="user picture" />
         <div>
@@ -23,7 +23,9 @@ function Profile({ user, articles = [] }) {
         </div>
       </div>
       <div className="shadow bg-white p-5 mb-8 rounded">
-        <h3 className="font-semibold mb-3 text-lg">My posts</h3>
+        <h3 className="font-semibold mb-3 text-lg">
+          {author === user.name ? "My posts" : `Posts by ${author}`}
+        </h3>
         <ul>
           {articles.map(article => (
             <li key={article.id}>
@@ -39,7 +41,9 @@ function Profile({ user, articles = [] }) {
   );
 }
 
-Profile.getInitialProps = async ({ req, res }) => {
+Profile.getInitialProps = async ({ req, res, query }) => {
+  const author = query.id;
+
   // On the server-side you can check authentication status directly
   // However in general you might want to call API Routes to fetch data
   // An example of directly checking authentication:
@@ -52,9 +56,9 @@ Profile.getInitialProps = async ({ req, res }) => {
       res.end();
       return;
     }
-    const articles = await fetchArticles({ limit: 5, author: user.name });
+    const articles = await fetchArticles({ limit: 5, author });
 
-    return { user, articles };
+    return { user, articles, author };
   }
 
   // To do fetches to API routes you can pass the cookie coming from the incoming request on to the fetch
@@ -75,9 +79,9 @@ Profile.getInitialProps = async ({ req, res }) => {
     window.location.href = "/api/login";
   }
 
-  const articles = await fetchArticles({ limit: 5, author: user.name });
+  const articles = await fetchArticles({ limit: 5, author });
 
-  return { user, articles };
+  return { user, articles, author };
 };
 
 export default Profile;

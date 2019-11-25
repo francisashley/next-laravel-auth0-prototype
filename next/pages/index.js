@@ -1,36 +1,58 @@
 import React from "react";
 import Layout from "../components/layout";
 import { useFetchUser } from "../lib/user";
+import { useFetchArticles } from "../lib/articles";
 import Link from "next/link";
 
 function Home() {
   const { user, loading } = useFetchUser();
 
+  const articles = useFetchArticles({ limit: 5 });
+
   return (
-    <Layout user={user} loading={loading} title="Next.js and Auth0 Example">
-      {loading && <p>Loading login info...</p>}
-
-      {!loading && !user && (
-        <p>
-          You are logged out. Would you like to{" "}
-          <Link href="/api/login">
-            <a>log in</a>
-          </Link>
-          ?
-        </p>
-      )}
-
-      {user && (
-        <>
-          <p>
-            You are logged in as <strong>{user.name}</strong>. Would you like to{" "}
-            <Link href="/api/logout">
-              <a>log out</a>
-            </Link>
-            ?
-          </p>
-        </>
-      )}
+    <Layout
+      user={user}
+      loading={loading}
+      title={user ? `Welcome back ${user.name} 👋!` : `Welcome guest!`}
+    >
+      <div className="mt-8">
+        <div className="shadow bg-white p-5 mb-8 rounded">
+          <h3 className="font-semibold mb-3 text-lg">Check out the latest posts</h3>
+          <ul>
+            {articles.map(article => (
+              <li key={article.id}>
+                👉{" "}
+                <Link href={`/articles/[id]`} as={`/articles/${article.id}`}>
+                  <a className="text-blue-600 hover:underline text-lg">{article.title}</a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="shadow bg-white p-5 mb-8 rounded">
+          <h3 className="font-semibold mb-3 text-lg">Popular authors</h3>
+          <ul>
+            <li>
+              ⚡️{" "}
+              <Link href="authors/[id]" as={`/authors/bluefish`}>
+                <a className="text-blue-600 hover:underline text-lg">bluefish</a>
+              </Link>
+            </li>
+            <li>
+              ⚡️{" "}
+              <Link href="authors/[id]" as={`/authors/cornsilk`}>
+                <a className="text-blue-600 hover:underline text-lg">cornsilk</a>
+              </Link>
+            </li>
+            <li>
+              ⚡️{" "}
+              <Link href="authors/[id]" as={`/authors/khadia`}>
+                <a className="text-blue-600 hover:underline text-lg">khadia</a>
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
     </Layout>
   );
 }

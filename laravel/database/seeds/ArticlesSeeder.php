@@ -58,7 +58,7 @@ class ArticlesSeeder extends Seeder
         "created_at" => "2014-07-04 00:00:00"
       ]);
       DB::table('articles')->insert([
-        "title" => "A Surprising Tip To Help You Mature",
+        "title" => "A Surprising Tip To Help You Grow Up",
         "content" => $faker->paragraphs(100, true),
         "author" => "khadia",
         "created_at" => "2014-07-05 00:00:00"

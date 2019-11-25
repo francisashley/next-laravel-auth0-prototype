@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "../../components/layout";
 import { useFetchUser } from "../../lib/user";
 
-function Article({ articleId }) {
+function CreateArticle({ articleId }) {
   const { user, loading } = useFetchUser();
 
   return (
@@ -12,4 +12,4 @@ function Article({ articleId }) {
   );
 }
 
-export default Article;
+export default CreateArticle;

@@ -9,7 +9,7 @@ function Settings({ user }) {
 
   return (
     <form
-      className="jsx-2275513050 shadow rounded bg-white pt-2 pb-4 px-6"
+      className="shadow rounded bg-white py-16 px-6"
       onSubmit={async e => {
         e.preventDefault();
         setSubmitting(true);
@@ -32,7 +32,6 @@ function Settings({ user }) {
         }
       }}
     >
-      <h3 className="font-semibold border-b py-4 mb-8">General</h3>
       <div className="flex items-center max-w-lg mb-6">
         <div className="w-1/3 text-right text-sm font-medium">
           <label htmlFor="name" className="mr-6">
@@ -45,14 +44,14 @@ function Settings({ user }) {
             value={name}
             id="name"
             onChange={e => setNickname(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-gray-400 text-sm"
           />
         </div>
       </div>
       <div className="flex items-center max-w-lg mb-6">
         <div className="w-1/3 text-right text-sm font-medium" />
         <button
-          className="jsx-4078260806 bg-blue-500 hover:bg-blue-700 text-white font-regular text-sm py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-regular text-sm py-2 px-4 rounded focus:outline-none focus:shadow-outline leading-tight"
           type="submit"
         >
           {!submitting ? "Save" : "Saving..."}

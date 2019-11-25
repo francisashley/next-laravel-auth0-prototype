@@ -11,7 +11,7 @@ function Layout({ user, loading = false, title = "", children }) {
       <Header user={user} loading={loading} />
 
       <main className="mx-auto max-w-3xl">
-        {title && <h1 className="text-3xl font-semibold my-10">{title}</h1>}
+        {title && <h1 className="text-3xl font-semibold my-10 text-white">{title}</h1>}
         {children}
       </main>
     </>

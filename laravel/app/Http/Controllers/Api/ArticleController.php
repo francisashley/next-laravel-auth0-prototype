@@ -21,7 +21,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-      return ArticleListResource::collection(Article::all());
+      return ArticleListResource::collection(Article::orderByDesc('created_at')->get());
     }
 
     /**
