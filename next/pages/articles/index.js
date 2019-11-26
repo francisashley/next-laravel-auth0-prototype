@@ -1,15 +1,14 @@
 import react, { useState, useEffect } from "react";
 import Layout from "../../components/layout";
-import { useFetchUser } from "../../lib/user";
 import Link from "next/link";
 import { useFetchArticles } from "../../lib/articles";
+import withUser from "../../lib/withUser";
 
-function Articles() {
-  const { user, loading } = useFetchUser();
+function Articles({ user }) {
   const articles = useFetchArticles();
 
   return (
-    <Layout user={user} loading={loading} title="Articles">
+    <Layout user={user} title="Articles">
       <div className="flex-1 shadow bg-white p-5 mb-5 rounded">
         <ul>
           {articles.map(article => (
@@ -33,4 +32,4 @@ function Articles() {
   );
 }
 
-export default Articles;
+export default withUser(Articles);

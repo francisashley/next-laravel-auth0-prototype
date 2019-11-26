@@ -1,20 +1,14 @@
 import React from "react";
-import Layout from "../components/layout";
-import { useFetchUser } from "../lib/user";
-import { useFetchArticles } from "../lib/articles";
 import Link from "next/link";
+import Layout from "../components/layout";
+import { useFetchArticles } from "../lib/articles";
+import withUser from "../lib/withUser";
 
-function Home() {
-  const { user, loading } = useFetchUser();
-
+function Home({ user }) {
   const articles = useFetchArticles({ limit: 5 });
 
   return (
-    <Layout
-      user={user}
-      loading={loading}
-      title={user ? `Welcome back ${user.name} 👋!` : `Welcome guest!`}
-    >
+    <Layout user={user} title={user ? `Welcome back ${user.name} 👋!` : `Welcome guest!`}>
       <div className="mt-8">
         <div className="shadow bg-white p-5 mb-8 rounded">
           <h3 className="font-semibold mb-3 text-lg">Check out the latest posts</h3>
@@ -57,4 +51,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default withUser(Home);

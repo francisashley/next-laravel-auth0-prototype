@@ -1,7 +1,5 @@
 import React from "react";
-import auth0 from "../../../lib/auth0";
 import { fetchArticles } from "../../../lib/articles";
-import { fetchUser } from "../../../lib/user";
 import Layout from "../../../components/layout";
 import Link from "next/link";
 import withAuth from "../../../lib/withAuth";

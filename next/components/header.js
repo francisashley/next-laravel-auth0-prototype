@@ -1,6 +1,6 @@
 import Link from "./ActiveLink";
 
-function Header({ user, loading }) {
+function Header({ user }) {
   return (
     <header className="app-header overflow-auto bg-gray-800">
       <nav className="max-w-3xl mx-auto py-4 flex items-center border-b-2 border-yellow-400">
@@ -25,28 +25,27 @@ function Header({ user, loading }) {
               <a>Authors</a>
             </Link>
           </li>
-          {!loading &&
-            (user ? (
-              <>
-                <li className="mr-4">
-                  <Link href="/authors/[id]" as={`/authors/${user.name}`}>
-                    <a>Profile</a>
-                  </Link>
-                </li>
-                <li className="mr-4">
-                  <Link href="/settings">
-                    <a>Settings</a>
-                  </Link>
-                </li>
-                <li>
-                  <a href="/api/logout">Logout</a>
-                </li>
-              </>
-            ) : (
-              <li>
-                <a href="/api/login">Log in</a>
+          {user ? (
+            <>
+              <li className="mr-4">
+                <Link href="/authors/[id]" as={`/authors/${user.name}`}>
+                  <a>Profile</a>
+                </Link>
               </li>
-            ))}
+              <li className="mr-4">
+                <Link href="/settings">
+                  <a>Settings</a>
+                </Link>
+              </li>
+              <li>
+                <a href="/api/logout">Logout</a>
+              </li>
+            </>
+          ) : (
+            <li>
+              <a href="/api/login">Log in</a>
+            </li>
+          )}
         </ul>
       </nav>
       <style jsx global>{`
@@ -59,7 +58,6 @@ function Header({ user, loading }) {
         }
         .app-header ul .active {
           color: #f6e05e;
-          font-weight: 500;
         }
       `}</style>
     </header>

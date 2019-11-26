@@ -1,15 +1,13 @@
 import React from "react";
 import Layout from "../../components/layout";
-import { useFetchUser } from "../../lib/user";
+import withUser from "../../lib/withUser";
 
-function CreateArticle({ articleId }) {
-  const { user, loading } = useFetchUser();
-
+function CreateArticle({ user, articleId }) {
   return (
-    <Layout user={user} loading={loading} title={`Create article`}>
+    <Layout user={user} title={`Create article`}>
       {loading && <p>Loading login info...</p>}
     </Layout>
   );
 }
 
-export default CreateArticle;
+export default withUser(CreateArticle);

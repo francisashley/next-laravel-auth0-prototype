@@ -1,14 +1,13 @@
 import react, { useState, useEffect } from "react";
 import Layout from "../../../components/layout";
-import { useFetchUser } from "../../../lib/user";
 import { useFetchArticle } from "../../../lib/articles";
+import withUser from "../../../lib/withUser";
 
-function Article({ id }) {
-  const { user, loading } = useFetchUser();
+function Article({ user, id }) {
   const article = useFetchArticle(id);
 
   return (
-    <Layout user={user} loading={loading} title={article ? article.title : ""}>
+    <Layout user={user} title={article ? article.title : ""}>
       {article && (
         <div className="shadow bg-white p-5 mb-5 rounded ">
           <div className="mb-5 flex">
@@ -32,4 +31,4 @@ Article.getInitialProps = ({ query }) => {
   return { id: query.id };
 };
 
-export default Article;
+export default withUser(Article);

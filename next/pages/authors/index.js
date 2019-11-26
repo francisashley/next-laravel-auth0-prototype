@@ -1,10 +1,8 @@
 import Layout from "../../components/layout";
-import { useFetchUser } from "../../lib/user";
 import Link from "next/link";
+import withUser from "../../lib/withUser";
 
-function Authors() {
-  const { user, loading } = useFetchUser();
-
+function Authors({ user }) {
   const authors = [
     { username: "bluefish", totalArticles: 4 },
     { username: "cornsilk", totalArticles: 7 },
@@ -12,7 +10,7 @@ function Authors() {
   ];
 
   return (
-    <Layout user={user} loading={loading} title="Authors">
+    <Layout user={user} title="Authors">
       <div className="flex-1 shadow bg-white p-5 mb-5 rounded">
         <ul>
           {authors.map(user => (
@@ -29,4 +27,4 @@ function Authors() {
   );
 }
 
-export default Authors;
+export default withUser(Authors);
