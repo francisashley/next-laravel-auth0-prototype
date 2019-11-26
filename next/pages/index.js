@@ -15,7 +15,7 @@ function Home({ user }) {
 
   return (
     <Layout user={user} title={user ? `Welcome back ${user.name} 👋!` : `Welcome guest!`}>
-      <Panel title="Check out the latest posts">
+      <Panel title="Recent posts">
         <ul>
           {articles.map(article => (
             <li key={article.id}>

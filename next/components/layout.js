@@ -10,7 +10,7 @@ function Layout({ user, title = "", children }) {
 
       <Header user={user} />
 
-      <main className="mx-auto max-w-3xl">
+      <main className="mx-auto max-w-3xl mb-24">
         {title && <h1 className="text-3xl font-semibold my-10 text-white">{title}</h1>}
         {children}
       </main>

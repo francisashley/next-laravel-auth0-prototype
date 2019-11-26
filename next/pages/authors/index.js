@@ -12,7 +12,7 @@ function Authors({ user }) {
 
   return (
     <Layout user={user} title="Authors">
-      <Panel>
+      <Panel title="Authors">
         <ul>
           {authors.map(user => (
             <li key={user.username}>

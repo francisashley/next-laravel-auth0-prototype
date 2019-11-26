@@ -4,11 +4,11 @@ function Header({ user }) {
   return (
     <header className="app-header overflow-auto bg-gray-800">
       <nav className="max-w-3xl mx-auto py-4 flex items-center border-b-2 border-yellow-400">
-        <h1 className="text-2xl mr-auto tracking-wide text-white">
+        <h2 className="text-2xl mr-auto tracking-wide text-white">
           <Link href="/">
             <a>NLAP</a>
           </Link>
-        </h1>
+        </h2>
         <ul className="flex">
           <li className="mr-4">
             <Link href="/">
@@ -30,11 +30,6 @@ function Header({ user }) {
               <li className="mr-4">
                 <Link href="/authors/[id]" as={`/authors/${user.name}`}>
                   <a>Profile</a>
-                </Link>
-              </li>
-              <li className="mr-4">
-                <Link href="/settings">
-                  <a>Settings</a>
                 </Link>
               </li>
               <li>

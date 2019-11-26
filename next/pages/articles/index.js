@@ -9,7 +9,7 @@ function Articles({ user }) {
 
   return (
     <Layout user={user} title="Articles">
-      <Panel>
+      <Panel title="Articles">
         <ul>
           {articles.map(article => (
             <li key={article.id}>
