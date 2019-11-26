@@ -4,6 +4,7 @@ import { fetchArticles } from "../../../lib/articles";
 import { fetchUser } from "../../../lib/user";
 import Layout from "../../../components/layout";
 import Link from "next/link";
+import withAuth from "../../../lib/withAuth";
 
 function Profile({ user, articles = [], author }) {
   return (
@@ -43,45 +44,18 @@ function Profile({ user, articles = [], author }) {
 
 Profile.getInitialProps = async ({ req, res, query }) => {
   const author = query.id;
-
-  // On the server-side you can check authentication status directly
-  // However in general you might want to call API Routes to fetch data
-  // An example of directly checking authentication:
-  if (typeof window === "undefined") {
-    const { user } = await auth0.getSession(req);
-    if (!user) {
-      res.writeHead(302, {
-        Location: "/api/login"
-      });
-      res.end();
-      return;
-    }
-    const articles = await fetchArticles({ limit: 5, author });
-
-    return { user, articles, author };
-  }
-
-  // To do fetches to API routes you can pass the cookie coming from the incoming request on to the fetch
-  // so that a request to the API is done on behalf of the user
-  // keep in mind that server-side fetches need a full URL, meaning that the full url has to be provided to the application
-  const cookie = req && req.headers.cookie;
-  const user = await fetchUser(cookie);
-
-  // A redirect is needed to authenticate to Auth0
-  if (!user) {
-    if (typeof window === "undefined") {
-      res.writeHead(302, {
-        Location: "/api/login"
-      });
-      return res.end();
-    }
-
-    window.location.href = "/api/login";
-  }
-
   const articles = await fetchArticles({ limit: 5, author });
+  let user = null;
+
+  if (typeof window === "undefined") {
+    const session = await auth0.getSession(req);
+    user = session && session.user;
+  } else {
+    const cookie = req && req.headers.cookie;
+    user = await fetchUser(cookie);
+  }
 
   return { user, articles, author };
 };
 
-export default Profile;
+export default withAuth(Profile);
