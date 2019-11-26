@@ -1,6 +1,6 @@
-import react, { useState, useEffect } from "react";
-import Layout from "../../components/layout";
 import Link from "next/link";
+import Layout from "../../components/layout";
+import Panel from "../../components/panel";
 import { useFetchArticles } from "../../lib/articles";
 import withUser from "../../lib/withUser";
 
@@ -9,7 +9,7 @@ function Articles({ user }) {
 
   return (
     <Layout user={user} title="Articles">
-      <div className="flex-1 shadow bg-white p-5 mb-5 rounded">
+      <Panel>
         <ul>
           {articles.map(article => (
             <li key={article.id}>
@@ -27,7 +27,7 @@ function Articles({ user }) {
             </li>
           ))}
         </ul>
-      </div>
+      </Panel>
     </Layout>
   );
 }

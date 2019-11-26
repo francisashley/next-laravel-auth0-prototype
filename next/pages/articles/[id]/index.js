@@ -1,5 +1,5 @@
-import react, { useState, useEffect } from "react";
 import Layout from "../../../components/layout";
+import Panel from "../../../components/panel";
 import { useFetchArticle } from "../../../lib/articles";
 import withUser from "../../../lib/withUser";
 
@@ -9,7 +9,7 @@ function Article({ user, id }) {
   return (
     <Layout user={user} title={article ? article.title : ""}>
       {article && (
-        <div className="shadow bg-white p-5 mb-5 rounded ">
+        <Panel>
           <div className="mb-5 flex">
             <div className="mr-4">
               <strong className="font-semibold">By</strong>{" "}
@@ -21,7 +21,7 @@ function Article({ user, id }) {
           </div>
 
           <p>{article.content}</p>
-        </div>
+        </Panel>
       )}
     </Layout>
   );

@@ -1,14 +1,14 @@
-import React from "react";
-import { fetchArticles } from "../../../lib/articles";
-import Layout from "../../../components/layout";
 import Link from "next/link";
+import Layout from "../../../components/layout";
+import Panel from "../../../components/panel";
+import { fetchArticles } from "../../../lib/articles";
 import withAuth from "../../../lib/withAuth";
 import withUser from "../../../lib/withUser";
 
 function Profile({ user, articles = [], author }) {
   return (
     <Layout user={user} title={author}>
-      <div className="shadow bg-white p-5 mb-5 rounded flex">
+      <Panel className="flex">
         <img className="mr-4" src={user.picture} alt="user picture" />
         <div>
           <p className="mb-2">
@@ -21,11 +21,8 @@ function Profile({ user, articles = [], author }) {
             <strong>Updated at:</strong> {user.updated_at}
           </p>
         </div>
-      </div>
-      <div className="shadow bg-white p-5 mb-8 rounded">
-        <h3 className="font-semibold mb-3 text-lg">
-          {author === user.name ? "My posts" : `Posts by ${author}`}
-        </h3>
+      </Panel>
+      <Panel title={author === user.name ? "My posts" : `Posts by ${author}`}>
         <ul>
           {articles.map(article => (
             <li key={article.id}>
@@ -36,7 +33,7 @@ function Profile({ user, articles = [], author }) {
             </li>
           ))}
         </ul>
-      </div>
+      </Panel>
     </Layout>
   );
 }

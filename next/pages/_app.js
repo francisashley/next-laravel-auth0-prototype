@@ -1,5 +1,4 @@
 import App from "next/app";
-import React from "react";
 import "../styles.css";
 
 export default class MyApp extends App {

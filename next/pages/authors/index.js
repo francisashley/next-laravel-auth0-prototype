@@ -1,5 +1,6 @@
-import Layout from "../../components/layout";
 import Link from "next/link";
+import Layout from "../../components/layout";
+import Panel from "../../components/panel";
 import withUser from "../../lib/withUser";
 
 function Authors({ user }) {
@@ -11,7 +12,7 @@ function Authors({ user }) {
 
   return (
     <Layout user={user} title="Authors">
-      <div className="flex-1 shadow bg-white p-5 mb-5 rounded">
+      <Panel>
         <ul>
           {authors.map(user => (
             <li key={user.username}>
@@ -22,7 +23,7 @@ function Authors({ user }) {
             </li>
           ))}
         </ul>
-      </div>
+      </Panel>
     </Layout>
   );
 }

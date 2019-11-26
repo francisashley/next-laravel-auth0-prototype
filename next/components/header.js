@@ -1,4 +1,4 @@
-import Link from "./ActiveLink";
+import Link from "./active-link";
 
 function Header({ user }) {
   return (

@@ -1,11 +1,11 @@
-import React from "react";
 import Layout from "../../../components/layout";
+import Panel from "../../../components/panel";
 import withUser from "../../../lib/withUser";
 
 function DeleteArticle({ user, id }) {
   return (
     <Layout user={user} title={`Delete article: ${id}`}>
-      {loading && <p>Loading login info...</p>}
+      <Panel title="Delete article" />
     </Layout>
   );
 }
