@@ -5,6 +5,7 @@ import { fetchUser } from "../../../lib/user";
 import Layout from "../../../components/layout";
 import Link from "next/link";
 import withAuth from "../../../lib/withAuth";
+import withUser from "../../../lib/withUser";
 
 function Profile({ user, articles = [], author }) {
   return (
@@ -45,17 +46,8 @@ function Profile({ user, articles = [], author }) {
 Profile.getInitialProps = async ({ req, res, query }) => {
   const author = query.id;
   const articles = await fetchArticles({ limit: 5, author });
-  let user = null;
 
-  if (typeof window === "undefined") {
-    const session = await auth0.getSession(req);
-    user = session && session.user;
-  } else {
-    const cookie = req && req.headers.cookie;
-    user = await fetchUser(cookie);
-  }
-
-  return { user, articles, author };
+  return { articles, author };
 };
 
-export default withAuth(Profile);
+export default withUser(withAuth(Profile));
