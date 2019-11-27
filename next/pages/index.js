@@ -29,8 +29,8 @@ function Home({ user }) {
       </Panel>
       <Panel title="Popular authors">
         <ul>
-          {users.map(user => (
-            <li>
+          {users.map((user, i) => (
+            <li key={i}>
               ⚡️{" "}
               <Link href="authors/[id]" as={user.href}>
                 <a className="text-blue-600 hover:underline text-lg">{user.username}</a>
