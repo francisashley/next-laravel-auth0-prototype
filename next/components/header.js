@@ -25,18 +25,22 @@ function Header({ user }) {
               <a>Authors</a>
             </Link>
           </li>
-          {user ? (
-            <>
-              <li className="mr-4">
-                <Link href="/authors/[id]" as={`/authors/${user.name}`}>
-                  <a>Profile</a>
-                </Link>
-              </li>
-              <li>
-                <a href="/api/logout">Logout</a>
-              </li>
-            </>
-          ) : (
+          {user && (
+            <li className="mr-4">
+              <Link href="/authors/[id]" as={`/authors/${user.name}`}>
+                <a>Profile</a>
+              </Link>
+            </li>
+          )}
+          <li className="mr-4">
+            <a href="/api/token">Token</a>
+          </li>
+          {user && (
+            <li>
+              <a href="/api/logout">Logout</a>
+            </li>
+          )}
+          {!user && (
             <li>
               <a href="/api/login">Log in</a>
             </li>
