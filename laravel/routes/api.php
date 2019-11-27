@@ -25,9 +25,11 @@ Route::get('/public', function (Request $request) {
 // Article routes
 Route::get('/articles', 'Api\ArticleController@index');
 Route::get('/articles/{article}', 'Api\ArticleController@show');
-Route::post('/articles', 'Api\ArticleController@store');
-Route::patch('/articles/{article}', 'Api\ArticleController@update');
-Route::delete('/articles/{article}', 'Api\ArticleController@destroy');
+Route::middleware(['jwt'])->group(function () {
+  Route::post('/articles', 'Api\ArticleController@store');
+  Route::patch('/articles/{article}', 'Api\ArticleController@update');
+  Route::delete('/articles/{article}', 'Api\ArticleController@destroy');
+});
 
 // These endpoints require a valid access token.
 Route::middleware(['jwt'])->group(function () {
