@@ -59,7 +59,7 @@ return [
     |   This is used to verify the decoded tokens when using RS256
     |
     */
-    'authorized_issuers'  => [ env( 'AUTH0_DOMAIN' ) ],
+    'authorized_issuers'  => [ 'https://' . env( 'AUTH0_DOMAIN' ) . '/' ],
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +67,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'api_identifier'  => 'http://127.0.0.1:8000/api/',
+    'api_identifier'  => 'http://localhost:8000/api/',
 
     /*
     |--------------------------------------------------------------------------

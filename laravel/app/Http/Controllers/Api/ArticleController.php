@@ -4,71 +4,94 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Resources\Article as ArticleResource;
-use App\Http\Resources\ArticleList as ArticleListResource;
-
 use App\Http\Requests\StoreArticle;
-use App\Http\Requests\EditArticle;
+use App\Http\Requests\UpdateArticle;
+use App\Repositories\ArticleRepository;
+use App\Http\Resources\ArticleResource;
+use App\Http\Resources\ArticleCollectionResource;
 
 use App\Article;
 
 class ArticleController extends Controller
 {
+    private $articleRepository;
+
+    public function __construct(ArticleRepository $articleRepository) {
+        $this->articles = $articleRepository;
+    }
+
     /**
-     * Display a listing of the resource.
+     * Get all articles.
      *
-     * @return \Illuminate\Http\Response
+     * @return App\Http\Resources\ArticleCollectionResource
      */
     public function index()
     {
-      return ArticleListResource::collection(Article::orderByDesc('created_at')->get());
+        $articles = $this->articles->all();
+
+        return new ArticleCollectionResource($articles);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Get article by id.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  int  $article_id
+     * @return App\Http\Resources\ArticleResource
+     */
+    public function get(int $article_id)
+    {
+        $article = $this->articles->get($article_id);
+
+        return new ArticleResource($article);
+    }
+
+    /**
+     * Get articles by user.
+     *
+     * @param  string  $username
+     * @return App\Http\Resources\ArticleCollectionResource
+     */
+    public function getByUser(string $username)
+    {
+        $articles = $this->articles->getByUser($username);
+
+        return new ArticleResource($articles);
+    }
+
+    /**
+     * Create an article.
+     *
+     * @param  App\Http\Requests\StoreArticle  $request
+     * @return App\Http\Resources\ArticleResource
      */
     public function store(StoreArticle $request)
     {
-      $article = Article::create([
-        "title" => $request->title,
-        "content" => $request->content,
-        "author" => $request->author
-      ]);
+        $article = $this->articles->store('cornsilk', [
+            "title" => $request->title,
+            "content" => $request->content
+        ]);
 
-      return new ArticleResource($article);
+        return new ArticleResource($article);
     }
 
     /**
-     * Display the specified resource.
+     * Update an article.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  App\Http\Requests\UpdateArticle  $request
+     * @param  string  $article_id
+     * @return App\Http\Resources\ArticleResource
      */
-    public function show(Article $article)
+    public function update(UpdateArticle $request, string $article_id)
     {
-      return new ArticleResource($article);
+        $article = $this->articles->update($article_id, [
+            "content" => $request->content
+        ]);
+
+        return new ArticleResource($article);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(EditArticle $request, Article $article)
-    {
-      $article->content = $request->content;
-      $article->save();
-
-      return new ArticleResource($article);
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * Delete an article.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
