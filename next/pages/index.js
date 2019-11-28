@@ -21,7 +21,7 @@ function Home({ user }) {
             <li key={article.id}>
               👉{" "}
               <Link href={`/articles/[id]`} as={`/articles/${article.id}`}>
-                <a className="text-blue-600 hover:underline text-lg">{article.title}</a>
+                <a className="text-blue-600 hover:underline text-md">{article.title}</a>
               </Link>
             </li>
           ))}
@@ -33,7 +33,7 @@ function Home({ user }) {
             <li key={i}>
               ⚡️{" "}
               <Link href="authors/[id]" as={user.href}>
-                <a className="text-blue-600 hover:underline text-lg">{user.username}</a>
+                <a className="text-blue-600 hover:underline text-md">{user.username}</a>
               </Link>
             </li>
           ))}

@@ -17,7 +17,7 @@ function Authors({ user }) {
           {authors.map(user => (
             <li key={user.username}>
               <Link href="/authors/[id]" as={`/authors/${user.username}`}>
-                <a className="text-blue-600 hover:underline text-lg">{user.username}</a>
+                <a className="text-blue-600 hover:underline text-md">{user.username}</a>
               </Link>
               <span className="text-gray-600 text-sm">{` (${user.totalArticles} articles)`}</span>
             </li>

@@ -14,7 +14,7 @@ function Articles({ user }) {
           {articles.map(article => (
             <li key={article.id}>
               <Link href="/articles/[id]" as={`/articles/${article.id}`}>
-                <a className="text-blue-600 hover:underline text-lg">{article.title}</a>
+                <a className="text-blue-600 hover:underline text-md">{article.title}</a>
               </Link>
               <span className="text-gray-600 text-sm">
                 {" ~ "}
