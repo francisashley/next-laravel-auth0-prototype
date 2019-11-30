@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateArticle;
 use App\Repositories\ArticleRepository;
 use App\Http\Resources\ArticleResource;
 use App\Http\Resources\ArticleCollectionResource;
+use App\Services\Auth0Service as Auth0;
 
 use App\Article;
 
@@ -55,7 +56,7 @@ class ArticleController extends Controller
     {
         $articles = $this->articles->getByUser($username);
 
-        return new ArticleResource($articles);
+        return new ArticleCollectionResource($articles);
     }
 
     /**
@@ -66,7 +67,9 @@ class ArticleController extends Controller
      */
     public function store(StoreArticle $request)
     {
-        $article = $this->articles->store('cornsilk', [
+        $username = Auth0::me()->nickname;
+
+        $article = $this->articles->store($username, [
             "title" => $request->title,
             "content" => $request->content
         ]);
@@ -78,16 +81,22 @@ class ArticleController extends Controller
      * Update an article.
      *
      * @param  App\Http\Requests\UpdateArticle  $request
-     * @param  string  $article_id
+     * @param  \App\Article  $article
      * @return App\Http\Resources\ArticleResource
      */
-    public function update(UpdateArticle $request, string $article_id)
+    public function update(UpdateArticle $request, Article $article)
     {
-        $article = $this->articles->update($article_id, [
-            "content" => $request->content
-        ]);
+        $username = Auth0::me()->nickname;
 
-        return new ArticleResource($article);
+        if ($article->author === $username) {
+            $article = $this->articles->update($article->id, [
+                "content" => $request->content
+            ]);
+
+            return new ArticleResource($article);
+        }
+
+        return response([ 'message' => 'Unauthenticated.' ], 401);
     }
 
     /**
@@ -98,8 +107,14 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-      $article->delete();
+        $username = Auth0::me()->nickname;
 
-      return response()->json(null, 204);
+        if ($article->author === $username) {
+            $article->delete();
+
+            return response()->json(null, 204);
+        }
+
+        return response([ 'message' => 'Unauthenticated.' ], 401);
     }
 }

@@ -18,7 +18,7 @@ class Auth0ServiceProvider extends ServiceProvider
     {
         $auth0 = new Auth0($this->app->request->bearerToken());
 
-        $this->app->singleton(Auth0::class, function () {
+        $this->app->singleton(Auth0::class, function () use ($auth0) {
             return $auth0;
         });
     }

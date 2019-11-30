@@ -7,19 +7,21 @@ use Auth0\SDK\JWTVerifier;
 
 class Auth0Service
 {
-    public static $accessToken;
-    public static $decodedToken;
+    private static $accessToken;
+    private static $decodedToken;
+    private static $me;
     private static $manager;
 
     public function __construct($accessToken)
     {
-        if (! $accessToken) return;
+        if (! $accessToken) {
+            return;
+        }
 
         try {
             self::$decodedToken = self::decodeToken($accessToken);
             self::$accessToken = $accessToken;
-        } catch (\Exception $error) {
-        }
+        } catch (\Exception $error) { }
     }
 
     /**
@@ -86,16 +88,21 @@ class Auth0Service
      */
     public static function me()
     {
+        if (self::$me) {
+            return self::$me;
+        }
+
         $client = new \GuzzleHttp\Client();
 
         $url = 'https://' . env('AUTH0_DOMAIN') . '/userinfo';
-        $bearerToken = 'Bearer ' . self::$accessToken;
 
-        $response = (string) $client->get($url, [
-            'headers' => [ 'authorization' => $bearerToken ]
-        ])->getBody();
+        $clientOptions = [
+            'headers' => [ 'authorization' => 'Bearer ' . self::$accessToken ]
+        ];
 
-        return json_decode($response);
+        self::$me = json_decode((string) $client->get($url, $clientOptions)->getBody());
+
+        return self::$me;
     }
 
     /**
