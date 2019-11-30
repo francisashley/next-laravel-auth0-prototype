@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth0\SDK\JWTVerifier;
+use App\Services\Auth0Service as Auth0;
 
 class CheckJWT
 {
@@ -18,46 +19,20 @@ class CheckJWT
     public function handle($request, Closure $next, $scopeRequired = null) {
         $accessToken = $request->bearerToken();
 
-        if (empty($accessToken)) {
+        if (! $accessToken) {
             return response()->json(['message' => 'Bearer token missing'], 401);
         }
 
-        $laravelConfig = config('laravel-auth0');
-        $jwtConfig = [
-            'authorized_iss' => $laravelConfig['authorized_issuers'],
-            'valid_audiences' => [$laravelConfig['api_identifier']],
-            'supported_algs' => $laravelConfig['supported_algs'],
-        ];
-
         try {
-            $jwtVerifier = new JWTVerifier($jwtConfig);
-            $decodedToken = $jwtVerifier->verifyAndDecode($accessToken);
+            $decodedToken = Auth0::decodeToken($accessToken);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 401);
         }
 
-        if ($scopeRequired && !$this->tokenHasScope($decodedToken, $scopeRequired)) {
+        if ($scopeRequired && !Auth0::tokenHasScope($decodedToken, $scopeRequired)) {
             return response()->json(['message' => 'Insufficient scope'], 403);
         }
 
         return $next($request);
-    }
-
-    /**
-     * Check if a token has a specific scope.
-     *
-     * @param \stdClass $token - JWT access token to check.
-     * @param string $scopeRequired - Scope to check for.
-     *
-     * @return bool
-     */
-    protected function tokenHasScope($token, $scopeRequired) {
-
-        if (empty($token->scope)) {
-            return false;
-        }
-
-        $tokenScopes = explode(' ', $token->scope);
-        return in_array($scopeRequired, $tokenScopes);
     }
 }
