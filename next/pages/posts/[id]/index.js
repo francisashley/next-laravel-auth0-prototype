@@ -13,7 +13,7 @@ function Post({ user, id }) {
                     <div className="mb-5 flex">
                         <div className="mr-4">
                             <strong className="font-semibold">By</strong>{" "}
-                            <a href={`/authors/` + post.author}>{post.author}</a>
+                            <a href={`/users/` + post.author}>{post.author}</a>
                         </div>
                         <div>
                             <strong className="font-semibold">Published</strong>{" "}

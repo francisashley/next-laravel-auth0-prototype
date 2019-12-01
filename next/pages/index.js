@@ -8,9 +8,9 @@ function Home({ user }) {
     const posts = useFetchPosts({ limit: 5 });
 
     const users = [
-        { href: "/authors/bluefish", username: "bluefish" },
-        { href: "/authors/cornsilk", username: "cornsilk" },
-        { href: "/authors/khadia", username: "khadia" }
+        { href: "/users/bluefish", username: "bluefish" },
+        { href: "/users/cornsilk", username: "cornsilk" },
+        { href: "/users/khadia", username: "khadia" }
     ];
 
     return (
@@ -29,12 +29,12 @@ function Home({ user }) {
                     ))}
                 </ul>
             </Panel>
-            <Panel title="Popular authors">
+            <Panel title="Popular users">
                 <ul>
                     {users.map((user, i) => (
                         <li key={i}>
                             ⚡️{" "}
-                            <Link href="authors/[id]" as={user.href}>
+                            <Link href="users/[id]" as={user.href}>
                                 <a className="text-blue-600 hover:underline text-md">
                                     {user.username}
                                 </a>

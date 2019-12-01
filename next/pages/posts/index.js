@@ -20,7 +20,7 @@ function Posts({ user }) {
                             </Link>
                             <span className="text-gray-600 text-sm">
                                 {" ~ "}
-                                <Link href="/authors/[id]" as={`/authors/${post.author}`}>
+                                <Link href="/users/[id]" as={`/users/${post.author}`}>
                                     <a className="text-gray-600 hover:underline text-sm font-medium">
                                         {post.author}
                                     </a>

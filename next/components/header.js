@@ -21,20 +21,20 @@ function Header({ user }) {
                         </Link>
                     </li>
                     <li className="mr-4">
-                        <Link href="/authors">
-                            <a>Authors</a>
+                        <Link href="/users">
+                            <a>Users</a>
                         </Link>
+                    </li>
+                    <li className="mr-4">
+                        <a href="/api/token">Tokens</a>
                     </li>
                     {user && (
                         <li className="mr-4">
-                            <Link href="/authors/[id]" as={`/authors/${user.name}`}>
+                            <Link href="/users/[id]" as={`/users/${user.name}`}>
                                 <a>Profile</a>
                             </Link>
                         </li>
                     )}
-                    <li className="mr-4">
-                        <a href="/api/token">Token</a>
-                    </li>
                     {user && (
                         <li>
                             <a href="/api/logout">Logout</a>

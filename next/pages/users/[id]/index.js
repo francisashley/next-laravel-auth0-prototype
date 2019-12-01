@@ -6,12 +6,12 @@ import { fetchPosts } from "../../../lib/posts";
 import withAuth from "../../../lib/withAuth";
 import withUser from "../../../lib/withUser";
 
-function Profile({ user, posts = [], author }) {
+function Profile({ user, posts = [], routeUser }) {
     const [name, setNickname] = useState(user.name);
     const [submitting, setSubmitting] = useState(false);
 
     return (
-        <Layout user={user} title={author}>
+        <Layout user={user} title={routeUser}>
             <Panel className="flex">
                 <img className="mr-4" src={user.picture} alt="user picture" />
                 <div>
@@ -26,7 +26,7 @@ function Profile({ user, posts = [], author }) {
                     </p>
                 </div>
             </Panel>
-            <Panel title={author === user.name ? "My posts" : `Posts by ${author}`}>
+            <Panel title={routeUser === user.name ? "My posts" : `Posts by ${routeUser}`}>
                 <ul>
                     {posts.map(post => (
                         <li key={post.id}>
@@ -40,7 +40,7 @@ function Profile({ user, posts = [], author }) {
                     ))}
                 </ul>
             </Panel>
-            {author === user.name && (
+            {routeUser === user.name && (
                 <Panel title="Account Settings" className="p-8">
                     <form
                         onSubmit={async e => {
@@ -98,10 +98,10 @@ function Profile({ user, posts = [], author }) {
 }
 
 Profile.getInitialProps = async ({ req, res, query }) => {
-    const author = query.id;
-    const posts = await fetchPosts({ limit: 5, author });
+    const routeUser = query.id;
+    const posts = await fetchPosts({ limit: 5, author: routeUser });
 
-    return { posts, author };
+    return { posts, routeUser };
 };
 
 export default withUser(withAuth(Profile));
