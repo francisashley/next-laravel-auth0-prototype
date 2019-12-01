@@ -88,15 +88,15 @@ class PostController extends Controller
     {
         $username = Auth0::me()->nickname;
 
-        if ($post->author === $username) {
-            $post = $this->posts->update($post->id, [
-                "content" => $request->content
-            ]);
-
-            return new PostResource($post);
+        if ($post->author !== $username) {
+            return response([ 'message' => 'Unauthenticated.' ], 401);
         }
 
-        return response([ 'message' => 'Unauthenticated.' ], 401);
+        $data = [ "content" => $request->content ];
+
+        $post = $this->posts->update($post->id, $data);
+
+        return new PostResource($post);
     }
 
     /**
@@ -109,12 +109,12 @@ class PostController extends Controller
     {
         $username = Auth0::me()->nickname;
 
-        if ($post->author === $username) {
-            $post->delete();
-
-            return response()->json(null, 204);
+        if ($post->author !== $username) {
+            return response([ 'message' => 'Unauthenticated.' ], 401);
         }
 
-        return response([ 'message' => 'Unauthenticated.' ], 401);
+        $post->delete();
+
+        return response()->json(null, 204);
     }
 }
