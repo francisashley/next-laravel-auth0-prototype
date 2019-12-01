@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePost;
 use App\Http\Requests\UpdatePost;
-use App\Repositories\PostRepository;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\PostCollectionResource;
 use App\Services\Auth0Service as Auth0;
@@ -15,12 +14,6 @@ use App\Post;
 
 class PostController extends Controller
 {
-    private $postRepository;
-
-    public function __construct(PostRepository $postRepository) {
-        $this->posts = $postRepository;
-    }
-
     /**
      * Get all posts.
      *
@@ -28,7 +21,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = $this->posts->all();
+        $posts =  Post::orderByDesc('created_at')->get();
 
         return new PostCollectionResource($posts);
     }
@@ -41,7 +34,7 @@ class PostController extends Controller
      */
     public function get(int $post_id)
     {
-        $post = $this->posts->get($post_id);
+        $post =  Post::find($post_id);
 
         return new PostResource($post);
     }
@@ -54,7 +47,7 @@ class PostController extends Controller
      */
     public function getByUser(string $username)
     {
-        $posts = $this->posts->getByUser($username);
+        $posts = Post::where('author', '=', $username)->get();
 
         return new PostCollectionResource($posts);
     }
@@ -69,9 +62,10 @@ class PostController extends Controller
     {
         $username = Auth0::me()->nickname;
 
-        $post = $this->posts->store($username, [
+        $post = Post::create([
             "title" => $request->title,
-            "content" => $request->content
+            "content" => $request->content,
+            "author" => $username
         ]);
 
         return new PostResource($post);
@@ -92,9 +86,9 @@ class PostController extends Controller
             return response([ 'message' => 'Unauthenticated.' ], 401);
         }
 
-        $data = [ "content" => $request->content ];
-
-        $post = $this->posts->update($post->id, $data);
+        $post = tap(Post::findOrFail($post->id))->update([
+            'content' => $request->content
+        ]);
 
         return new PostResource($post);
     }
