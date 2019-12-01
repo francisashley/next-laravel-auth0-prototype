@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ArticleCollectionResource extends ResourceCollection
+class PostCollectionResource extends ResourceCollection
 {
     /**
      * Transform the resource into an array.
@@ -15,12 +15,12 @@ class ArticleCollectionResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => $this->collection->map(function($article) {
+            'data' => $this->collection->map(function($post) {
                 return [
-                    'id' => $article->id,
-                    'title' => $article->title,
-                    'author' => $article->author,
-                    'date' => date('Y/m/d h:i:s', strtotime($article->created_at))
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'author' => $post->author,
+                    'date' => date('Y/m/d h:i:s', strtotime($post->created_at))
                 ];
             }),
             'meta' => [

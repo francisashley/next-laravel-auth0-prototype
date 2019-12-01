@@ -2,44 +2,44 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Article;
+use App\Post;
 
-interface ArticleRepositoryInterface
+interface PostRepositoryInterface
 {
     /**
-     * Get all articles.
+     * Get all posts.
      *
      * @return mixed
      */
     public function all();
 
     /**
-     * Get article by id.
+     * Get post by id.
      *
      * @param int
      */
-    public function get(int $article_id);
+    public function get(int $post_id);
 
     /**
-     * Get articles by user.
+     * Get posts by user.
      *
      * @param string
      */
     public function getByUser(string $username);
 
     /**
-     * Create an article.
+     * Create an post.
      *
      * @param string
      * @param array
      */
-    public function store(string $username, array $article);
+    public function store(string $username, array $post);
 
     /**
-     * Update an article.
+     * Update an post.
      *
      * @param string
      * @param array
      */
-    public function update(int $article_id, array $article);
+    public function update(int $post_id, array $post);
 }

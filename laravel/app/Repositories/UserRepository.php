@@ -6,7 +6,7 @@ use Auth0\SDK\JWTVerifier;
 use App\Services\Auth0Service as Auth0;
 use Illuminate\Http\Request;
 
-Use App\Article;
+Use App\Post;
 
 class UserRepository
 {
@@ -17,7 +17,7 @@ class UserRepository
         $users = json_decode(json_encode($users));
 
         $users = collect($users)->map(function($user) {
-            $user->articles_count = Article::where(['author' => $user->nickname])->count();
+            $user->posts_count = Post::where(['author' => $user->nickname])->count();
             return $user;
         });
 
@@ -35,7 +35,7 @@ class UserRepository
 
         if ($user) {
             $user = (object) $user;
-            $user->articles_count = Article::where(['author' => $user->nickname])->count();
+            $user->posts_count = Post::where(['author' => $user->nickname])->count();
             return $user;
         } else {
             return null;
@@ -45,7 +45,7 @@ class UserRepository
     public function me()
     {
         $me = Auth0::me();
-        $me->articles_count = Article::where(['author' => $me->nickname])->count();
+        $me->posts_count = Post::where(['author' => $me->nickname])->count();
         return $me;
     }
 
@@ -53,7 +53,7 @@ class UserRepository
     public function update(string $user_id, array $data)
     {
         $user = (object) Auth0::manager()->users->update($user_id, $data);
-        $user->articles_count = Article::where(['author' => $user->nickname])->count();
+        $user->posts_count = Post::where(['author' => $user->nickname])->count();
         return $user;
     }
 
