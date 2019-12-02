@@ -11,6 +11,7 @@ use App\Http\Resources\PostCollectionResource;
 use App\Services\Auth0Service as Auth0;
 
 use App\Post;
+use \Auth;
 
 class PostController extends Controller
 {
@@ -60,12 +61,10 @@ class PostController extends Controller
      */
     public function store(StorePost $request)
     {
-        $username = Auth0::me()->nickname;
-
         $post = Post::create([
             "title" => $request->title,
             "content" => $request->content,
-            "author" => $username
+            "author" => Auth::user()->username
         ]);
 
         return new PostResource($post);
@@ -80,9 +79,7 @@ class PostController extends Controller
      */
     public function update(UpdatePost $request, Post $post)
     {
-        $username = Auth0::me()->nickname;
-
-        if ($post->author !== $username) {
+        if ($post->author !== Auth::user()->username) {
             return response([ 'message' => 'Unauthenticated.' ], 401);
         }
 
@@ -101,9 +98,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        $username = Auth0::me()->nickname;
+        $username = Auth::user()->username;
 
-        if ($post->author !== $username) {
+        if ($post->author !== Auth::user()->username) {
             return response([ 'message' => 'Unauthenticated.' ], 401);
         }
 

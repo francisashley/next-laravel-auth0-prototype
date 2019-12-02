@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'v1'], function () {
     Route::get('/posts', 'Api\PostController@index');
     Route::get('/posts/{post}', 'Api\PostController@get');
-    Route::middleware(['jwt'])->group(function () {
+    Route::middleware('auth:api')->group(function () {
         Route::post('/posts', 'Api\PostController@store');
         Route::patch('/posts/{post}', 'Api\PostController@update');
         Route::delete('/posts/{post}', 'Api\PostController@destroy');
@@ -25,7 +25,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('/users', 'Api\UserController@index');
     Route::get('/users/{user}', 'Api\UserController@get');
     Route::get('/users/{user}/posts', 'Api\PostController@getByUser');
-    Route::middleware(['jwt'])->group(function () {
+    Route::middleware('auth:api')->group(function () {
         Route::get('/me', 'Api\UserController@me');
         Route::patch('/me', 'Api\UserController@update');
     });

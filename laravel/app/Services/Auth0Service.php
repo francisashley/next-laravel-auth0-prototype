@@ -81,29 +81,29 @@ class Auth0Service
         return in_array($scopeRequired, $tokenScopes);
     }
 
-    /**
-     * Get user info associated with access token.
-     *
-     * @return bool
-     */
-    public static function me()
-    {
-        if (self::$me) {
-            return self::$me;
-        }
+    // /**
+    //  * Get user info associated with access token.
+    //  *
+    //  * @return bool
+    //  */
+    // public static function me()
+    // {
+    //     if (self::$me) {
+    //         return self::$me;
+    //     }
 
-        $client = new \GuzzleHttp\Client();
+    //     $client = new \GuzzleHttp\Client();
 
-        $url = 'https://' . env('AUTH0_DOMAIN') . '/userinfo';
+    //     $url = 'https://' . env('AUTH0_DOMAIN') . '/userinfo';
 
-        $clientOptions = [
-            'headers' => [ 'authorization' => 'Bearer ' . self::$accessToken ]
-        ];
+    //     $clientOptions = [
+    //         'headers' => [ 'authorization' => 'Bearer ' . self::$accessToken ]
+    //     ];
 
-        self::$me = json_decode((string) $client->get($url, $clientOptions)->getBody());
+    //     self::$me = json_decode((string) $client->get($url, $clientOptions)->getBody());
 
-        return self::$me;
-    }
+    //     return self::$me;
+    // }
 
     /**
      * Get auth0 Manager API.

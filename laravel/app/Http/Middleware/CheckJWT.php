@@ -18,7 +18,7 @@ class CheckJWT
      */
     public function handle($request, Closure $next, $scopeRequired = null) {
         $accessToken = $request->bearerToken();
-
+dd($scopeRequired);
         if (! $accessToken) {
             return response()->json(['message' => 'Bearer token missing'], 401);
         }

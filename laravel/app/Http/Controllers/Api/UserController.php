@@ -51,9 +51,7 @@ class UserController extends Controller
      */
     public function me(Request $request)
     {
-        $me = $this->users->me();
-
-        return new UserResource($me);
+        return new UserResource(\Auth::user());
     }
 
     /**
@@ -64,7 +62,7 @@ class UserController extends Controller
      */
     public function update(UpdateUser $request)
     {
-        $user_id = Auth0::decodedToken()->sub;
+        $user_id = \Auth::user()->auth0_id;
 
         $me = $this->users->update($user_id, [ 'username' => $request->username ]);
 

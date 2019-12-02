@@ -42,13 +42,6 @@ class UserRepository
         }
     }
 
-    public function me()
-    {
-        $me = Auth0::me();
-        $me->posts_count = Post::where(['author' => $me->nickname])->count();
-        return $me;
-    }
-
     // Update user
     public function update(string $user_id, array $data)
     {
