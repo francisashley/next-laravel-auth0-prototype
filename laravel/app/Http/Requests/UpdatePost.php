@@ -24,6 +24,7 @@ class UpdatePost extends FormRequest
     public function rules()
     {
         return [
+            'title' => 'string|min:0|max:100',
             'content' => 'string|min:0|max:60000',
         ];
     }
