@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Auth0\SDK\JWTVerifier;
 use App\Services\Auth0Service as Auth0;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
@@ -30,10 +29,6 @@ class Authenticate extends Middleware
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 401);
         }
-
-        // if ($scopeRequired && !Auth0::tokenHasScope($decodedToken, $scopeRequired)) {
-        //     return response()->json(['message' => 'Insufficient scope'], 403);
-        // }
 
         $this->authenticate($request, $guards);
 
