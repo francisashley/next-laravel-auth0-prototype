@@ -3,21 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\UserRepository;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserCollectionResource;
 use App\Http\Requests\UpdateUser;
+use App\Services\Auth0Service as Auth0;
 
 use App\User;
 
 class UserController extends Controller
 {
-    private $usersRepository;
-
-    public function __construct(UserRepository $userRepository) {
-        $this->users = $userRepository;
-    }
-
     /**
      * Get all users.
      *
@@ -25,6 +19,9 @@ class UserController extends Controller
      */
     public function index()
     {
+        $users = Auth0::manager()->users->search();
+        $users = collect(json_decode(json_encode($users)));
+
         return new UserCollectionResource(User::all());
     }
 
@@ -60,7 +57,9 @@ class UserController extends Controller
     {
         $user_id = \Auth::user()->auth0_id;
 
-        $me = $this->users->update($user_id, [ 'username' => $request->username ]);
+        $me = (object) Auth0::manager()->users->update($user_id,
+            [ 'username' => $request->username ]
+        );
 
         return new UserResource(\Auth::user());
     }
