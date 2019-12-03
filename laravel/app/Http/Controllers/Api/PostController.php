@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\StorePost;
 use App\Http\Requests\UpdatePost;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\PostCollectionResource;
-use App\Services\Auth0Service as Auth0;
 
 use App\Post;
+use App\User;
 use \Auth;
 
 class PostController extends Controller
@@ -44,7 +43,7 @@ class PostController extends Controller
      * @param  \AppUser  $user
      * @return App\Http\Resources\PostCollectionResource
      */
-    public function getByUser(\App\User $user)
+    public function getByUser(User $user)
     {
         return new PostCollectionResource($user->posts);
     }
