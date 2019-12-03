@@ -5,7 +5,7 @@ namespace App\Services;
 use Auth0\SDK\API\Management;
 use Auth0\SDK\JWTVerifier;
 
-class Auth0Service
+class Auth0
 {
     private static $accessToken;
     private static $decodedToken;

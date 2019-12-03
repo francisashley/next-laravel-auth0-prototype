@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Request;
-use App\Services\Auth0Service as Auth0;
+use App\Services\Auth0;
 
 
 class Auth0ServiceProvider extends ServiceProvider

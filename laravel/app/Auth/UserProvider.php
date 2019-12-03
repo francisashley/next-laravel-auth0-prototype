@@ -5,7 +5,7 @@ namespace App\Auth;
 use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Contracts\Auth\UserProvider as UserProviderContract;
 use Auth0\SDK\JWTVerifier;
-use \App\Services\Auth0Service as Auth0;
+use \App\Services\Auth0;
 
 class UserProvider extends EloquentUserProvider implements UserProviderContract
 {

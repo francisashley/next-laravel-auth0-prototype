@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
-use App\Services\Auth0Service as Auth0;
+use App\Services\Auth0;
 
 class RouteServiceProvider extends ServiceProvider
 {

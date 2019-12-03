@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth0\SDK\JWTVerifier;
-use App\Services\Auth0Service as Auth0;
+use App\Services\Auth0;
 
 class CheckJWT
 {

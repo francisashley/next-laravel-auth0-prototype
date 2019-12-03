@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserCollectionResource;
 use App\Http\Requests\UpdateUser;
-use App\Services\Auth0Service as Auth0;
+use App\Services\Auth0;
 
 use App\User;
 
