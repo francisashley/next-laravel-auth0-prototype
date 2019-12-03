@@ -7,50 +7,17 @@ use Auth0\SDK\JWTVerifier;
 
 class Auth0
 {
-    private static $accessToken;
-    private static $decodedToken;
-    private static $me;
     private static $manager;
 
-    public function __construct($accessToken)
+    public static function manager()
     {
-        if (! $accessToken) {
-            return;
+        if (! self::$manager) {
+            self::$manager = new Management(getenv('AUTH0_MANAGER_TOKEN'), getenv('AUTH0_DOMAIN'));
         }
 
-        try {
-            self::$decodedToken = self::decodeToken($accessToken);
-            self::$accessToken = $accessToken;
-        } catch (\Exception $error) { }
+        return self::$manager;
     }
 
-    /**
-     * Get token that was provided with HTTP request.
-     *
-     * @return string
-     */
-    public static function token()
-    {
-        return self::$accessToken;
-    }
-
-    /**
-     * Get the decoded access token.
-     *
-     * @return string
-     */
-    public static function decodedToken()
-    {
-        return self::$decodedToken;
-    }
-
-    /**
-     * Check if a token has a specific scope.
-     *
-     * @param string $accessToken - JWT access token to check.
-     *
-     * @return array
-     */
     public static function decodeToken($accessToken)
     {
         $jwtVerifier = new JWTVerifier([
@@ -60,25 +27,6 @@ class Auth0
         ]);
 
         return $jwtVerifier->verifyAndDecode($accessToken);
-    }
-
-    /**
-     * Check if a token has a specific scope.
-     *
-     * @param string $token - decoded JWT access token to check.
-     * @param string $scopeRequired - Scope to check for.
-     *
-     * @return bool
-     */
-    public static function tokenHasScope($token, $scopeRequired)
-    {
-        if (empty($token->scope)) {
-            return false;
-        }
-
-        $tokenScopes = explode(' ', $token->scope);
-
-        return in_array($scopeRequired, $tokenScopes);
     }
 
     public static function getUserByUsername($username)
@@ -109,17 +57,14 @@ class Auth0
         return json_decode((string) $client->get($url, $clientOptions)->getBody());
     }
 
-    /**
-     * Get auth0 Manager API.
-     *
-     * @return bool
-     */
-    public static function manager()
+    public static function getAllUsers()
     {
-        if (! self::$manager) {
-            self::$manager = new Management(getenv('AUTH0_MANAGER_TOKEN'), getenv('AUTH0_DOMAIN'));
-        }
+        $users = self::manager()->users->search();
+        return collect(json_decode(json_encode($users)));
+    }
 
-        return self::$manager;
+    public static function updateUser($user_id, $data)
+    {
+        return (object) self::manager()->users->update($user_id, $data);
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateUser;
 use App\Services\Auth0;
 
 use App\User;
+use Auth;
 
 class UserController extends Controller
 {
@@ -19,9 +20,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = Auth0::manager()->users->search();
-        $users = collect(json_decode(json_encode($users)));
-
         return new UserCollectionResource(User::all());
     }
 
@@ -44,7 +42,7 @@ class UserController extends Controller
      */
     public function me()
     {
-        return new UserResource(\Auth::user());
+        return new UserResource(Auth::user());
     }
 
     /**
@@ -55,12 +53,14 @@ class UserController extends Controller
      */
     public function update(UpdateUser $request)
     {
-        $user_id = \Auth::user()->auth0_id;
+        $data = [ 'username' => $request->username ];
 
-        $me = (object) Auth0::manager()->users->update($user_id,
-            [ 'username' => $request->username ]
-        );
+        $auth0User = Auth0::updateUser(Auth::user()->auth0_id, $data);
 
-        return new UserResource(\Auth::user());
+        $user = User::where('auth0_id', $auth0User->user_id)->firstOrFail();
+        $user->username = $data['username'];
+        $user->save();
+
+        return new UserResource($user);
     }
 }
