@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserCollectionResource;
 use App\Http\Requests\UpdateUser;
-use \App\Services\Auth0Service as Auth0;
+
+use App\User;
 
 class UserController extends Controller
 {
@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return new UserCollectionResource(\App\User::all());
+        return new UserCollectionResource(User::all());
     }
 
     /**
@@ -34,7 +34,7 @@ class UserController extends Controller
      * @param  string  $username
      * @return App\Http\Resources\UserResource
      */
-    public function get(\App\User $user)
+    public function get(User $user)
     {
         return new UserResource($user);
     }
@@ -45,7 +45,7 @@ class UserController extends Controller
      * @param  string  $username
      * @return App\Http\Resources\UserCollectionResource
      */
-    public function me(Request $request)
+    public function me()
     {
         return new UserResource(\Auth::user());
     }
