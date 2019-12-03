@@ -33,10 +33,8 @@ class PostController extends Controller
      * @param  int  $post_id
      * @return App\Http\Resources\PostResource
      */
-    public function get(int $post_id)
+    public function get(Post $post)
     {
-        $post =  Post::find($post_id);
-
         return new PostResource($post);
     }
 
@@ -77,7 +75,7 @@ class PostController extends Controller
      */
     public function update(UpdatePost $request, Post $post)
     {
-        if ($post->user_id !== Auth::user()->auth0_id) {
+        if ($post->user->auth0_id !== Auth::user()->auth0_id) {
             return response([ 'message' => 'Unauthenticated.' ], 401);
         }
 
@@ -98,7 +96,7 @@ class PostController extends Controller
     {
         $username = Auth::user()->username;
 
-        if ($post->user_id !== Auth::user()->auth0_id) {
+        if ($post->user->auth0_id !== Auth::user()->auth0_id) {
             return response([ 'message' => 'Unauthenticated.' ], 401);
         }
 
