@@ -19,7 +19,7 @@ class UserCollectionResource extends ResourceCollection
                 return [
                     'username' => $user->name,
                     'picture' => $user->picture,
-                    'posts_count' => $user->posts_count
+                    'posts_count' => $user->posts->count()
                 ];
             }),
             'meta' => [

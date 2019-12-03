@@ -25,9 +25,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->users->all();
-
-        return new UserCollectionResource($users);
+        return new UserCollectionResource(\App\User::all());
     }
 
     /**
@@ -36,10 +34,8 @@ class UserController extends Controller
      * @param  string  $username
      * @return App\Http\Resources\UserResource
      */
-    public function get(string $username)
+    public function get(\App\User $user)
     {
-        $user = $this->users->get($username);
-
         return new UserResource($user);
     }
 
@@ -66,6 +62,6 @@ class UserController extends Controller
 
         $me = $this->users->update($user_id, [ 'username' => $request->username ]);
 
-        return new UserResource($me);
+        return new UserResource(\Auth::user());
     }
 }

@@ -81,29 +81,33 @@ class Auth0Service
         return in_array($scopeRequired, $tokenScopes);
     }
 
-    // /**
-    //  * Get user info associated with access token.
-    //  *
-    //  * @return bool
-    //  */
-    // public static function me()
-    // {
-    //     if (self::$me) {
-    //         return self::$me;
-    //     }
+    public static function getUserByUsername($username)
+    {
+        $users = self::manager()->users->search([
+            'q' => $username
+        ]);
+        $key = array_search($username, array_column($users, 'nickname'));
+        $user = $key !== false ? $users[$key] : false;
 
-    //     $client = new \GuzzleHttp\Client();
+        if ($user) {
+            return json_decode(json_encode((object) $user));
+        } else {
+            return null;
+        }
+    }
 
-    //     $url = 'https://' . env('AUTH0_DOMAIN') . '/userinfo';
+    public static function getUserByToken($accessToken)
+    {
+        $client = new \GuzzleHttp\Client();
 
-    //     $clientOptions = [
-    //         'headers' => [ 'authorization' => 'Bearer ' . self::$accessToken ]
-    //     ];
+        $url = 'https://' . env('AUTH0_DOMAIN') . '/userinfo';
 
-    //     self::$me = json_decode((string) $client->get($url, $clientOptions)->getBody());
+        $clientOptions = [
+            'headers' => [ 'authorization' => 'Bearer ' . $accessToken ]
+        ];
 
-    //     return self::$me;
-    // }
+        return json_decode((string) $client->get($url, $clientOptions)->getBody());
+    }
 
     /**
      * Get auth0 Manager API.

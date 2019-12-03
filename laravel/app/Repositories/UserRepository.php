@@ -16,11 +16,6 @@ class UserRepository
         $users = Auth0::manager()->users->search();
         $users = json_decode(json_encode($users));
 
-        $users = collect($users)->map(function($user) {
-            $user->posts_count = Post::where(['author' => $user->nickname])->count();
-            return $user;
-        });
-
         return collect($users);
     }
 
@@ -35,7 +30,6 @@ class UserRepository
 
         if ($user) {
             $user = (object) $user;
-            $user->posts_count = Post::where(['author' => $user->nickname])->count();
             return $user;
         } else {
             return null;
@@ -46,7 +40,6 @@ class UserRepository
     public function update(string $user_id, array $data)
     {
         $user = (object) Auth0::manager()->users->update($user_id, $data);
-        $user->posts_count = Post::where(['author' => $user->nickname])->count();
         return $user;
     }
 

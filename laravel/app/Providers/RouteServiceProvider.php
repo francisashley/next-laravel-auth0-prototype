@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use App\Services\Auth0Service as Auth0;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -23,9 +24,25 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+
+        Route::bind('user', function ($username) {
+            $user = \App\User::where('username', $username)->first();
+
+            if (! $user) {
+                $auth0User = Auth0::getUserByUsername($username);
+            }
+
+            if (isset($auth0User)) {
+                $user = \App\User::create([
+                    "auth0_id" => $auth0User->user_id,
+                    "username" => $auth0User->name,
+                    "picture" => $auth0User->picture
+                ]);
+            }
+
+            return $user ?? abort(404);
+        });
     }
 
     /**

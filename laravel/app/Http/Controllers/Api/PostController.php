@@ -43,14 +43,12 @@ class PostController extends Controller
     /**
      * Get posts by user.
      *
-     * @param  string  $username
+     * @param  \AppUser  $user
      * @return App\Http\Resources\PostCollectionResource
      */
-    public function getByUser(string $username)
+    public function getByUser(\App\User $user)
     {
-        $posts = Post::where('author', '=', $username)->get();
-
-        return new PostCollectionResource($posts);
+        return new PostCollectionResource($user->posts);
     }
 
     /**
@@ -64,7 +62,7 @@ class PostController extends Controller
         $post = Post::create([
             "title" => $request->title,
             "content" => $request->content,
-            "author" => Auth::user()->username
+            "user_id" => Auth::user()->auth0_id
         ]);
 
         return new PostResource($post);
@@ -79,7 +77,7 @@ class PostController extends Controller
      */
     public function update(UpdatePost $request, Post $post)
     {
-        if ($post->author !== Auth::user()->username) {
+        if ($post->user_id !== Auth::user()->auth0_id) {
             return response([ 'message' => 'Unauthenticated.' ], 401);
         }
 
@@ -100,7 +98,7 @@ class PostController extends Controller
     {
         $username = Auth::user()->username;
 
-        if ($post->author !== Auth::user()->username) {
+        if ($post->user_id !== Auth::user()->auth0_id) {
             return response([ 'message' => 'Unauthenticated.' ], 401);
         }
 
