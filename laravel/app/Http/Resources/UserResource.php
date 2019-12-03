@@ -17,7 +17,7 @@ class UserResource extends JsonResource
         return [
             'username' => $this->username,
             'picture' => $this->picture,
-            'posts_count' => 4 /*$this->posts_count*/
+            'posts_count' => $this->posts->count()
         ];
     }
 }
