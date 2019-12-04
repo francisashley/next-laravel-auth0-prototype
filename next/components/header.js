@@ -1,61 +1,43 @@
 import Link from "./active-link";
+import UserMenu from "./user-menu";
+import Logo from "./Logo";
 
 function Header({ user }) {
     return (
-        <header className="app-header overflow-auto bg-gray-800">
-            <nav className="max-w-3xl mx-auto py-4 flex items-center border-b-2 border-yellow-400">
-                <h2 className="text-2xl mr-auto tracking-wide text-white">
-                    <Link href="/">
-                        <a>NLAP</a>
-                    </Link>
-                </h2>
-                <ul className="flex">
-                    <li className="mr-4">
-                        <Link href="/">
-                            <a>Home</a>
-                        </Link>
+        <header className="app-header py-4 flex items-center border-b-2 border-yellow-400">
+            <Logo />
+            <nav className="app-nav">
+                <ul className="flex items-center">
+                    <li className="mr-4 text-sm font-medium tracking-wide">
+                        <Link href="/" children={<a>Home</a>} />
                     </li>
-                    <li className="mr-4">
-                        <Link href="/posts">
-                            <a>Posts</a>
-                        </Link>
+                    <li className="mr-4 text-sm font-medium tracking-wide">
+                        <Link href="/posts" children={<a>Posts</a>} />
                     </li>
-                    <li className="mr-4">
-                        <Link href="/users">
-                            <a>Users</a>
-                        </Link>
+                    <li className="mr-4 text-sm font-medium tracking-wide">
+                        <Link href="/users" children={<a>Users</a>} />
                     </li>
-                    <li className="mr-4">
-                        <a href="/api/token">Tokens</a>
-                    </li>
-                    {user && (
-                        <li className="mr-4">
-                            <Link href="/users/[id]" as={`/users/${user.name}`}>
-                                <a>Profile</a>
-                            </Link>
-                        </li>
-                    )}
                     {user && (
                         <li>
-                            <a href="/api/logout">Logout</a>
+                            <UserMenu user={user} />
                         </li>
                     )}
                     {!user && (
-                        <li>
+                        <li className="text-sm font-medium tracking-wide">
                             <a href="/api/login">Log in</a>
                         </li>
                     )}
                 </ul>
             </nav>
-            <style jsx global>{`
-                .app-header ul a {
-                    color: rgba(255, 255, 255, 0.6);
-                }
-                .app-header ul a:hover,
-                .app-header ul a:focus {
+            <style jsx>{`
+                a {
                     color: white;
                 }
-                .app-header ul .active {
+                a:hover,
+                a:focus {
+                    color: rgba(255, 255, 255, 0.6);
+                }
+                a.active {
                     color: #f6e05e;
                 }
             `}</style>
