@@ -1,10 +1,13 @@
 import Layout from "../../../components/layout";
 import Panel from "../../../components/panel";
-import { useFetchPost } from "../../../lib/posts";
+import Error from "next/error";
+import { fetchPost } from "../../../lib/posts";
 import withAuth from "../../../lib/withAuth";
 
-function Post({ authed, id }) {
-    const post = useFetchPost(id);
+function Post({ authed, post }) {
+    if (!post) {
+        return <Error statusCode={404} />;
+    }
 
     return (
         <Layout authed={authed} title={post ? post.title : ""}>
@@ -28,8 +31,10 @@ function Post({ authed, id }) {
     );
 }
 
-Post.getInitialProps = ({ query }) => {
-    return { id: query.id };
+Post.getInitialProps = async ({ query }) => {
+    const post = await fetchPost(query.id);
+
+    return { post };
 };
 
 export default withAuth(Post);

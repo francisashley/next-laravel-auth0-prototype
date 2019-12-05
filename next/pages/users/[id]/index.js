@@ -4,11 +4,16 @@ import Layout from "../../../components/layout";
 import Panel from "../../../components/panel";
 import { fetchPosts } from "../../../lib/posts";
 import withAuth from "../../../lib/withAuth";
+import Error from "next/error";
 
 function Profile({ authed = {}, posts = [], routeUser }) {
     authed = authed === null ? {} : authed;
     const [name, setNickname] = useState(authed.name);
     const [submitting, setSubmitting] = useState(false);
+
+    if (!routeUser) {
+        return <Error statusCode={404} />;
+    }
 
     return (
         <Layout authed={authed} title={routeUser}>
