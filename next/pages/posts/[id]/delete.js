@@ -10,8 +10,10 @@ function DeletePost({ authed, id }) {
     );
 }
 
-DeletePost.getInitialProps = ({ query }) => {
+DeletePost.getInitialProps = ({ query, authed }) => {
+    if (!authed) return { redirect: "/api/login" };
+
     return { id: query.id };
 };
 
-export default withAuth(DeletePost, ({ user }) => Boolean(user));
+export default withAuth(DeletePost);

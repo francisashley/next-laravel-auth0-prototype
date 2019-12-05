@@ -10,4 +10,10 @@ function CreatePost({ authed, postId }) {
     );
 }
 
-export default withAuth(CreatePost, ({ user }) => Boolean(user));
+CreatePost.getInitialProps = async ({ authed }) => {
+    if (!authed) return { redirect: "/api/login" };
+
+    return {};
+};
+
+export default withAuth(CreatePost);

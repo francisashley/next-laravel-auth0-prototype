@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import auth0 from "../lib/auth0";
 import { fetchMe } from "../lib/users";
 
-export default function withAuth(AuthComponent, authorize) {
+export default function withAuth(AuthComponent) {
     return class WithAuth extends Component {
         static async getInitialProps(ctx) {
             let pageProps = {};
@@ -17,20 +17,22 @@ export default function withAuth(AuthComponent, authorize) {
                 user = await fetchMe(cookie);
             }
 
-            // Authorize externally with IOC (Inversion of Control)
-            const authorized = authorize ? authorize({ user }) : true;
-
-            // Redirect if user not found
-            if (!authorized && typeof window === "undefined") {
-                ctx.res.writeHead(302, { Location: "/api/login" });
-                ctx.res.end();
-                return;
-            } else if (!authorized && window !== "undefined") {
-                return (window.location.href = "/api/login");
+            if (AuthComponent.getInitialProps) {
+                pageProps = await AuthComponent.getInitialProps({ ...ctx, authed: user });
             }
 
-            if (AuthComponent.getInitialProps) {
-                pageProps = await AuthComponent.getInitialProps(ctx);
+            // Authorization is handled in getInitialProps using IOC (Inversion of Control)
+            // If the page needs to be redirected, return the `redirect` prop with a relative url.
+
+            const { redirect } = pageProps;
+
+            // Redirect if user not found
+            if (redirect && typeof window === "undefined") {
+                ctx.res.writeHead(302, { Location: redirect });
+                ctx.res.end();
+                return;
+            } else if (redirect && window !== "undefined") {
+                return (window.location.href = redirect);
             }
 
             return { ...pageProps, authed: user };

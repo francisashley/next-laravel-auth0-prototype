@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import fetch from "isomorphic-unfetch";
 
 export function fetchPost(id) {
-    return fetch("/api/posts/" + id)
+    return fetch("http://localhost:3000/api/posts/" + id)
         .then(response => response.json())
         .then(({ data }) => data)
         .catch(error => {
