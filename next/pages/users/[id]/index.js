@@ -4,7 +4,6 @@ import Layout from "../../../components/layout";
 import Panel from "../../../components/panel";
 import { fetchPosts } from "../../../lib/posts";
 import withAuth from "../../../lib/withAuth";
-import withUser from "../../../lib/withUser";
 
 function Profile({ user, posts = [], routeUser }) {
     const [name, setNickname] = useState(user.name);
@@ -104,4 +103,4 @@ Profile.getInitialProps = async ({ req, res, query }) => {
     return { posts, routeUser };
 };
 
-export default withUser(withAuth(Profile));
+export default withAuth(Profile);

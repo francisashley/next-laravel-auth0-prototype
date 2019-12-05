@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Layout from "../../components/layout";
 import Panel from "../../components/panel";
-import withUser from "../../lib/withUser";
+import withAuth from "../../lib/withAuth";
 
 function Users({ user }) {
     const users = [
@@ -30,4 +30,4 @@ function Users({ user }) {
     );
 }
 
-export default withUser(Users);
+export default withAuth(Users);

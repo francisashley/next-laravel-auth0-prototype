@@ -1,6 +1,6 @@
 import Layout from "../../components/layout";
 import Panel from "../../components/panel";
-import withUser from "../../lib/withUser";
+import withAuth from "../../lib/withAuth";
 
 function CreatePost({ user, postId }) {
     return (
@@ -10,4 +10,4 @@ function CreatePost({ user, postId }) {
     );
 }
 
-export default withUser(CreatePost);
+export default withAuth(CreatePost, ({ user }) => Boolean(user));

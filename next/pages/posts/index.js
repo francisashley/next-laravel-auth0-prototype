@@ -2,7 +2,7 @@ import Link from "next/link";
 import Layout from "../../components/layout";
 import Panel from "../../components/panel";
 import { useFetchPosts } from "../../lib/posts";
-import withUser from "../../lib/withUser";
+import withAuth from "../../lib/withAuth";
 
 function Posts({ user }) {
     const posts = useFetchPosts();
@@ -34,4 +34,4 @@ function Posts({ user }) {
     );
 }
 
-export default withUser(Posts);
+export default withAuth(Posts);

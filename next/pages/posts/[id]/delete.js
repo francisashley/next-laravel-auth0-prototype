@@ -1,6 +1,6 @@
 import Layout from "../../../components/layout";
 import Panel from "../../../components/panel";
-import withUser from "../../../lib/withUser";
+import withAuth from "../../../lib/withAuth";
 
 function DeletePost({ user, id }) {
     return (
@@ -14,4 +14,4 @@ DeletePost.getInitialProps = ({ query }) => {
     return { id: query.id };
 };
 
-export default withUser(DeletePost);
+export default withAuth(DeletePost, ({ user }) => Boolean(user));

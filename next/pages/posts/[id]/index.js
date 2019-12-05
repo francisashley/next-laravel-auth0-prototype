@@ -1,7 +1,7 @@
 import Layout from "../../../components/layout";
 import Panel from "../../../components/panel";
 import { useFetchPost } from "../../../lib/posts";
-import withUser from "../../../lib/withUser";
+import withAuth from "../../../lib/withAuth";
 
 function Post({ user, id }) {
     const post = useFetchPost(id);
@@ -32,4 +32,4 @@ Post.getInitialProps = ({ query }) => {
     return { id: query.id };
 };
 
-export default withUser(Post);
+export default withAuth(Post);

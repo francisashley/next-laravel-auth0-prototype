@@ -1,6 +1,6 @@
 import Layout from "../../../components/layout";
 import Panel from "../../../components/panel";
-import withUser from "../../../lib/withUser";
+import withAuth from "../../../lib/withAuth";
 
 function EditPost({ user, id }) {
     return (
@@ -14,4 +14,4 @@ EditPost.getInitialProps = ({ query }) => {
     return { id: query.id };
 };
 
-export default withUser(EditPost);
+export default withAuth(EditPost, ({ user }) => Boolean(user));
