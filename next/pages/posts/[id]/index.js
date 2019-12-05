@@ -3,6 +3,7 @@ import Panel from "../../../components/panel";
 import Error from "next/error";
 import { fetchPost } from "../../../lib/posts";
 import withAuth from "../../../lib/withAuth";
+import Link from "next/link";
 
 function Post({ authed, post }) {
     if (!post) {
@@ -22,6 +23,15 @@ function Post({ authed, post }) {
                             <strong className="font-semibold">Published</strong>{" "}
                             {post.date.slice(0, 10)}
                         </div>
+                        {authed.name === post.author && (
+                            <div className="ml-auto">
+                                <Link href={`/posts/${post.id}/edit`}>
+                                    <a className="text-xs text-white bg-blue-700 hover:bg-blue-800 block py-1 px-3 rounded">
+                                        Edit
+                                    </a>
+                                </Link>
+                            </div>
+                        )}
                     </div>
 
                     <p>{post.content}</p>
