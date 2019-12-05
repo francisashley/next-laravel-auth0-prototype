@@ -2,16 +2,12 @@ import Link from "next/link";
 import Layout from "../components/layout";
 import Panel from "../components/panel";
 import { useFetchPosts } from "../lib/posts";
+import { useFetchUsers } from "../lib/users";
 import withAuth from "../lib/withAuth";
 
 function Home({ authed }) {
     const posts = useFetchPosts({ limit: 5 });
-
-    const users = [
-        { href: "/users/bluefish", username: "bluefish" },
-        { href: "/users/cornsilk", username: "cornsilk" },
-        { href: "/users/khadia", username: "khadia" }
-    ];
+    const users = useFetchUsers();
 
     return (
         <Layout
@@ -28,6 +24,14 @@ function Home({ authed }) {
                                     {post.title}
                                 </a>
                             </Link>
+                            <span className="text-gray-600 text-sm">
+                                {" ~ "}
+                                <Link href="/users/[id]" as={`/users/${post.author}`}>
+                                    <a className="text-gray-600 hover:underline text-sm font-medium">
+                                        {post.author}
+                                    </a>
+                                </Link>
+                            </span>
                         </li>
                     ))}
                 </ul>
@@ -37,7 +41,7 @@ function Home({ authed }) {
                     {users.map((user, i) => (
                         <li key={i}>
                             ⚡️{" "}
-                            <Link href="users/[id]" as={user.href}>
+                            <Link href="users/[id]" as={`users/${user.username}`}>
                                 <a className="text-blue-600 hover:underline text-md">
                                     {user.username}
                                 </a>

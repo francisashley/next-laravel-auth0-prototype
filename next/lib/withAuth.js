@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import auth0 from "../lib/auth0";
-import { fetchUser } from "../lib/user";
+import { fetchMe } from "../lib/users";
 
 export default function withAuth(AuthComponent, authorize) {
     return class WithAuth extends Component {
@@ -14,7 +14,7 @@ export default function withAuth(AuthComponent, authorize) {
                 user = session && session.user;
             } else {
                 const cookie = ctx.req && ctx.req.headers.cookie;
-                user = await fetchUser(cookie);
+                user = await fetchMe(cookie);
             }
 
             // Authorize externally with IOC (Inversion of Control)

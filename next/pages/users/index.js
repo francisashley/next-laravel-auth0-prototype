@@ -2,13 +2,10 @@ import Link from "next/link";
 import Layout from "../../components/layout";
 import Panel from "../../components/panel";
 import withAuth from "../../lib/withAuth";
+import { useFetchUsers } from "../../lib/users";
 
 function Users({ authed }) {
-    const users = [
-        { username: "bluefish", totalPosts: 4 },
-        { username: "cornsilk", totalPosts: 7 },
-        { username: "khadia", totalPosts: 9 }
-    ];
+    const users = useFetchUsers();
 
     return (
         <Layout authed={authed} title="Users">
@@ -21,7 +18,7 @@ function Users({ authed }) {
                                     {user.username}
                                 </a>
                             </Link>
-                            <span className="text-gray-600 text-sm">{` (${user.totalPosts} posts)`}</span>
+                            <span className="text-gray-600 text-sm">{` (${user.posts_count} posts)`}</span>
                         </li>
                     ))}
                 </ul>

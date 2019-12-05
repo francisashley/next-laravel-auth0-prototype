@@ -5,7 +5,8 @@ import Panel from "../../../components/panel";
 import { fetchPosts } from "../../../lib/posts";
 import withAuth from "../../../lib/withAuth";
 
-function Profile({ authed, posts = [], routeUser }) {
+function Profile({ authed = {}, posts = [], routeUser }) {
+    authed = authed === null ? {} : authed;
     const [name, setNickname] = useState(authed.name);
     const [submitting, setSubmitting] = useState(false);
 
