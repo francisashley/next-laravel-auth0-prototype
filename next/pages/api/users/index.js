@@ -1,5 +1,3 @@
-import auth0 from "../../../lib/auth0";
-import manager from "../../../lib/manager";
 import fetch from "isomorphic-unfetch";
 
 export default async function me(req, res) {

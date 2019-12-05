@@ -3,20 +3,21 @@ import Link from "next/link";
 import Layout from "../../../components/layout";
 import Panel from "../../../components/panel";
 import { fetchPosts } from "../../../lib/posts";
+import { fetchUser } from "../../../lib/users";
 import withAuth from "../../../lib/withAuth";
 import Error from "next/error";
 
-function Profile({ authed = {}, posts = [], routeUser }) {
+function Profile({ authed = {}, posts = [], user }) {
     authed = authed === null ? {} : authed;
     const [name, setNickname] = useState(authed.name);
     const [submitting, setSubmitting] = useState(false);
 
-    if (!routeUser) {
+    if (!user) {
         return <Error statusCode={404} />;
     }
 
     return (
-        <Layout authed={authed} title={routeUser}>
+        <Layout authed={authed} title={user.username}>
             <Panel className="flex">
                 <img className="mr-4" src={authed.picture} alt="user picture" />
                 <div>
@@ -31,7 +32,7 @@ function Profile({ authed = {}, posts = [], routeUser }) {
                     </p>
                 </div>
             </Panel>
-            <Panel title={routeUser === authed.name ? "My posts" : `Posts by ${routeUser}`}>
+            <Panel title={user.username === authed.name ? "My posts" : `Posts by ${user.username}`}>
                 <ul>
                     {posts.map(post => (
                         <li key={post.id}>
@@ -45,7 +46,7 @@ function Profile({ authed = {}, posts = [], routeUser }) {
                     ))}
                 </ul>
             </Panel>
-            {routeUser === authed.name && (
+            {user.username === authed.name && (
                 <Panel title="Account Settings" className="p-8">
                     <form
                         onSubmit={async e => {
@@ -103,10 +104,10 @@ function Profile({ authed = {}, posts = [], routeUser }) {
 }
 
 Profile.getInitialProps = async ({ req, res, query }) => {
-    const routeUser = query.id;
-    const posts = await fetchPosts({ limit: 5, author: routeUser });
+    const posts = await fetchPosts({ author: query.id });
+    const user = await fetchUser(query.id);
 
-    return { posts, routeUser };
+    return { posts, user };
 };
 
 export default withAuth(Profile);
