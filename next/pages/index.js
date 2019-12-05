@@ -4,7 +4,7 @@ import Panel from "../components/panel";
 import { useFetchPosts } from "../lib/posts";
 import withAuth from "../lib/withAuth";
 
-function Home({ user }) {
+function Home({ authed }) {
     const posts = useFetchPosts({ limit: 5 });
 
     const users = [
@@ -14,7 +14,10 @@ function Home({ user }) {
     ];
 
     return (
-        <Layout user={user} title={user ? `Welcome back ${user.name} 👋!` : `Welcome guest!`}>
+        <Layout
+            authed={authed}
+            title={authed ? `Welcome back ${authed.name} 👋!` : `Welcome guest!`}
+        >
             <Panel title="Recent posts">
                 <ul>
                     {posts.map(post => (

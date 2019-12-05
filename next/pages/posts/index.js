@@ -4,11 +4,11 @@ import Panel from "../../components/panel";
 import { useFetchPosts } from "../../lib/posts";
 import withAuth from "../../lib/withAuth";
 
-function Posts({ user }) {
+function Posts({ authed }) {
     const posts = useFetchPosts();
 
     return (
-        <Layout user={user} title="Posts">
+        <Layout authed={authed} title="Posts">
             <Panel title="Posts">
                 <ul>
                     {posts.map(post => (

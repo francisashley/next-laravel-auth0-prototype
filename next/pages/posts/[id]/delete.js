@@ -2,9 +2,9 @@ import Layout from "../../../components/layout";
 import Panel from "../../../components/panel";
 import withAuth from "../../../lib/withAuth";
 
-function DeletePost({ user, id }) {
+function DeletePost({ authed, id }) {
     return (
-        <Layout user={user} title={`Delete post: ${id}`}>
+        <Layout authed={authed} title={`Delete post: ${id}`}>
             <Panel title="Delete post" />
         </Layout>
     );

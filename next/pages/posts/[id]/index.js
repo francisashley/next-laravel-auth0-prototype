@@ -3,11 +3,11 @@ import Panel from "../../../components/panel";
 import { useFetchPost } from "../../../lib/posts";
 import withAuth from "../../../lib/withAuth";
 
-function Post({ user, id }) {
+function Post({ authed, id }) {
     const post = useFetchPost(id);
 
     return (
-        <Layout user={user} title={post ? post.title : ""}>
+        <Layout authed={authed} title={post ? post.title : ""}>
             {post && (
                 <Panel>
                     <div className="mb-5 flex">

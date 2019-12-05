@@ -3,7 +3,7 @@ import Layout from "../../components/layout";
 import Panel from "../../components/panel";
 import withAuth from "../../lib/withAuth";
 
-function Users({ user }) {
+function Users({ authed }) {
     const users = [
         { username: "bluefish", totalPosts: 4 },
         { username: "cornsilk", totalPosts: 7 },
@@ -11,7 +11,7 @@ function Users({ user }) {
     ];
 
     return (
-        <Layout user={user} title="Users">
+        <Layout authed={authed} title="Users">
             <Panel title="Users">
                 <ul>
                     {users.map(user => (

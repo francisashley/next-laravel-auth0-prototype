@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "./active-link";
 
-function UserMenu({ user }) {
+function UserMenu({ authed }) {
     const node = useRef();
 
     const [open, setOpen] = useState(false);
@@ -37,13 +37,13 @@ function UserMenu({ user }) {
                         setOpen(!open);
                     }}
                 >
-                    <img src={user.picture} className="mr-2 h-full" />
-                    {user.name}
+                    <img src={authed.picture} className="mr-2 h-full" />
+                    {authed.name}
                 </summary>
 
                 <ul className="absolute bg-white rounded-sm right-0 text-sm mt-3 flex flex-col py-1 whitespace-no-wrap">
                     <li className="flex">
-                        <Link href="/users/[id]" as={`/users/${user.name}`}>
+                        <Link href="/users/[id]" as={`/users/${authed.name}`}>
                             <a
                                 className="py-1 px-4 w-full hover:bg-yellow-400 text-xs pr-8 font-medium"
                                 onClick={() => setOpen(false)}

@@ -7,7 +7,7 @@ export default function withAuth(AuthComponent, authorize) {
         static async getInitialProps(ctx) {
             let pageProps = {};
 
-            // Check if `user` logged in
+            // Check if user logged in
             let user = null;
             if (typeof window === "undefined") {
                 const session = await auth0.getSession(ctx.req);
@@ -33,7 +33,7 @@ export default function withAuth(AuthComponent, authorize) {
                 pageProps = await AuthComponent.getInitialProps(ctx);
             }
 
-            return { ...pageProps, user };
+            return { ...pageProps, authed: user };
         }
 
         render() {

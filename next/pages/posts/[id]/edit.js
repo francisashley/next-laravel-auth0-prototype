@@ -2,9 +2,9 @@ import Layout from "../../../components/layout";
 import Panel from "../../../components/panel";
 import withAuth from "../../../lib/withAuth";
 
-function EditPost({ user, id }) {
+function EditPost({ authed, id }) {
     return (
-        <Layout user={user} title={`Edit post: ${id}`}>
+        <Layout authed={authed} title={`Edit post: ${id}`}>
             <Panel title="Edit post" />
         </Layout>
     );

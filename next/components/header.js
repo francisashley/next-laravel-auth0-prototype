@@ -2,7 +2,7 @@ import Link from "./active-link";
 import UserMenu from "./user-menu";
 import Logo from "./Logo";
 
-function Header({ user }) {
+function Header({ authed }) {
     return (
         <header className="app-header py-4 flex items-center border-b-2 border-yellow-400">
             <Logo />
@@ -17,12 +17,12 @@ function Header({ user }) {
                     <li className="mr-4 text-sm font-medium tracking-wide">
                         <Link href="/users" children={<a>Users</a>} />
                     </li>
-                    {user && (
+                    {authed && (
                         <li>
-                            <UserMenu user={user} />
+                            <UserMenu authed={authed} />
                         </li>
                     )}
-                    {!user && (
+                    {!authed && (
                         <li className="text-sm font-medium tracking-wide">
                             <a href="/api/login">Log in</a>
                         </li>

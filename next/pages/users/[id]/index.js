@@ -5,27 +5,27 @@ import Panel from "../../../components/panel";
 import { fetchPosts } from "../../../lib/posts";
 import withAuth from "../../../lib/withAuth";
 
-function Profile({ user, posts = [], routeUser }) {
-    const [name, setNickname] = useState(user.name);
+function Profile({ authed, posts = [], routeUser }) {
+    const [name, setNickname] = useState(authed.name);
     const [submitting, setSubmitting] = useState(false);
 
     return (
-        <Layout user={user} title={routeUser}>
+        <Layout authed={authed} title={routeUser}>
             <Panel className="flex">
-                <img className="mr-4" src={user.picture} alt="user picture" />
+                <img className="mr-4" src={authed.picture} alt="user picture" />
                 <div>
                     <p className="mb-2">
-                        <strong>Username:</strong> {user.name}
+                        <strong>Username:</strong> {authed.name}
                     </p>
                     <p className="mb-2">
-                        <strong>User id:</strong> {user.sub}
+                        <strong>User id:</strong> {authed.sub}
                     </p>
                     <p className="mb-2">
-                        <strong>Updated at:</strong> {user.updated_at}
+                        <strong>Updated at:</strong> {authed.updated_at}
                     </p>
                 </div>
             </Panel>
-            <Panel title={routeUser === user.name ? "My posts" : `Posts by ${routeUser}`}>
+            <Panel title={routeUser === authed.name ? "My posts" : `Posts by ${routeUser}`}>
                 <ul>
                     {posts.map(post => (
                         <li key={post.id}>
@@ -39,7 +39,7 @@ function Profile({ user, posts = [], routeUser }) {
                     ))}
                 </ul>
             </Panel>
-            {routeUser === user.name && (
+            {routeUser === authed.name && (
                 <Panel title="Account Settings" className="p-8">
                     <form
                         onSubmit={async e => {
