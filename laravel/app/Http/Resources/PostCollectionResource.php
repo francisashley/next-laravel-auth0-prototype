@@ -19,7 +19,7 @@ class PostCollectionResource extends ResourceCollection
                 return [
                     'id' => $post->id,
                     'title' => $post->title,
-                    'author' => $post->author,
+                    'author' => $post->user ? $post->user->username : null,
                     'date' => date('Y/m/d h:i:s', strtotime($post->created_at))
                 ];
             }),

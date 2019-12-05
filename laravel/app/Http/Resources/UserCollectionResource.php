@@ -17,7 +17,7 @@ class UserCollectionResource extends ResourceCollection
         return [
             'data' => $this->collection->map(function($user) {
                 return [
-                    'username' => $user->name,
+                    'username' => $user->username,
                     'picture' => $user->picture,
                     'posts_count' => $user->posts->count()
                 ];
