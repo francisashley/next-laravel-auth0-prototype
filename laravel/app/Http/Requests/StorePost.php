@@ -25,7 +25,7 @@ class StorePost extends FormRequest
     {
         return [
             'title' => 'required|string|max:100',
-            'content' => 'string|min:0|max:60000',
+            'content' => 'sometimes|nullable|string|min:0|max:60000',
         ];
     }
 }

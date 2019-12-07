@@ -78,10 +78,8 @@ class PostController extends Controller
             return response([ 'message' => 'Unauthenticated.' ], 401);
         }
 
-        $data = [];
-
-        if ($request->title !== null) $data['title'] = $request->title;
-        if ($request->content !== null) $data['content'] = $request->content;
+        $data['title'] = $request->title;
+        $data['content'] = $request->content !== null ? $request->content : '';
 
         $post = tap(Post::findOrFail($post->id))->update($data);
 
