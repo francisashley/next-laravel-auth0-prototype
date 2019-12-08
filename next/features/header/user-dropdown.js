@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
-import Link from "./active-link";
+import React, { useEffect, useRef, useState } from "react";
 
-function UserMenu({ authed }) {
+import Link from "../app/active-link";
+
+const UserDropdown = ({ authed }) => {
   const node = useRef();
 
   const [open, setOpen] = useState(false);
@@ -31,7 +32,7 @@ function UserMenu({ authed }) {
     <div className="user-menu flex">
       <details ref={node} className="relative" open={open}>
         <summary
-          className="cursor-pointer pr-6 pl-2 text-white flex items-center text-sm tracking-wide font-medium"
+          className="cursor-pointer pr-6 pl-3 flex items-center bg-white text-xs tracking-wide font-medium"
           onClick={e => {
             e.preventDefault();
             setOpen(!open);
@@ -40,11 +41,11 @@ function UserMenu({ authed }) {
           {authed.name}
         </summary>
 
-        <ul className="absolute bg-white rounded-sm right-0 text-sm mt-3 flex flex-col py-1 whitespace-no-wrap">
+        <ul className="absolute bg-white rounded-sm right-0 text-sm mt-3 flex flex-col py-1 whitespace-no-wrap z-10 shadow">
           <li className="flex">
             <Link href="/users/[id]" as={`/users/${authed.name}`}>
               <a
-                className="py-1 px-3 w-full hover:bg-yellow-400 text-xs pr-8 font-medium"
+                className="py-1 px-3 w-full hover:bg-gray-300 focus:bg-gray-300 text-xs pr-8 font-medium"
                 onClick={() => setOpen(false)}
               >
                 Your profile
@@ -54,7 +55,7 @@ function UserMenu({ authed }) {
           <li className="flex">
             <a
               href="/api/token"
-              className="py-1 px-3 w-full hover:bg-yellow-400 text-xs pr-8 font-medium"
+              className="py-1 px-3 w-full hover:bg-gray-300 focus:bg-gray-300 text-xs pr-8 font-medium"
             >
               Your tokens
             </a>
@@ -62,7 +63,7 @@ function UserMenu({ authed }) {
           <li className="flex">
             <a
               href="/api/logout"
-              className="py-1 px-3 w-full hover:bg-yellow-400 text-xs pr-8 font-medium"
+              className="py-1 px-3 w-full hover:bg-gray-300 focus:bg-gray-300 text-xs pr-8 font-medium"
             >
               Sign out
             </a>
@@ -77,7 +78,7 @@ function UserMenu({ authed }) {
           height: 0;
           border-style: solid;
           border-width: 4px 4px 0 4px;
-          border-color: #ffffff transparent transparent transparent;
+          border-color: black transparent transparent transparent;
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
@@ -86,10 +87,10 @@ function UserMenu({ authed }) {
         }
         summary {
           height: 28px;
-          background: rgba(0, 0, 0, 0.1);
         }
-        summary:hover {
-          color: rgba(255, 255, 255, 0.6);
+        summary:hover,
+        summary:focus {
+          background: rgba(255, 255, 255, 0.8);
         }
         summary::-webkit-details-marker {
           display: none;
@@ -108,6 +109,6 @@ function UserMenu({ authed }) {
       `}</style>
     </div>
   );
-}
+};
 
-export default UserMenu;
+export default UserDropdown;

@@ -1,6 +1,6 @@
 import Error from "./error";
 
-function Errors({ errors = [] }) {
+const Errors = ({ errors = [] }) => {
   return (
     <>
       {errors.map((error, i) => (
@@ -8,6 +8,6 @@ function Errors({ errors = [] }) {
       ))}
     </>
   );
-}
+};
 
 export default Errors;

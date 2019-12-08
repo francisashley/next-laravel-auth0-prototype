@@ -1,10 +1,10 @@
+import { Error, Errors, Group, Input, Label, Submit, Textarea } from "../../features/form";
 import React, { useState } from "react";
-import Layout from "../../components/layout";
-import Panel from "../../components/panel";
-import withAuth from "../../lib/withAuth";
+
+import Layout from "../../features/app/layout";
 import Router from "next/router";
 import api from "../../lib/api";
-import { Label, Input, Textarea, Submit, Errors, Error, Group } from "../../features/post-form";
+import withAuth from "../../lib/withAuth";
 
 const CreatePost = ({ authed }) => {
   const [title, setTitle] = useState("");
@@ -32,37 +32,35 @@ const CreatePost = ({ authed }) => {
   };
 
   return (
-    <Layout authed={authed} title={`Create post`}>
-      <Panel title="Create post">
-        <form className="py-4" onSubmit={handleSave}>
-          {errors && errors.authed === false && (
-            <Error>You are logged out. Please log back in.</Error>
-          )}
-          <Group>
-            <Label htmlFor="title" children="Title" />
-            <Input
-              name="title"
-              placeholder="Title"
-              onChange={e => setTitle(e.target.value)}
-              value={title}
-            />
-            {errors && errors.title && <Errors errors={errors.title} />}
-          </Group>
-          <Group>
-            <Label htmlFor="content" children="Content" />
-            <Textarea
-              name="content"
-              placeholder="Content"
-              onChange={e => setContent(e.target.value)}
-              value={content}
-            />
-            {errors && errors.content && <Errors errors={errors.content} />}
-          </Group>
-          <div className="flex">
-            <Submit>{submitting ? "Saving post..." : "Save post"}</Submit>
-          </div>
-        </form>
-      </Panel>
+    <Layout authed={authed} title="Add New Post" className="bg-gray-100">
+      <form className="py-4" onSubmit={handleSave}>
+        {errors && errors.authed === false && (
+          <Error>You are logged out. Please log back in.</Error>
+        )}
+        <Group>
+          <Label htmlFor="title" children="Title" />
+          <Input
+            name="title"
+            placeholder="Title"
+            onChange={e => setTitle(e.target.value)}
+            value={title}
+          />
+          {errors && errors.title && <Errors errors={errors.title} />}
+        </Group>
+        <Group>
+          <Label htmlFor="content" children="Content" />
+          <Textarea
+            name="content"
+            placeholder="Content"
+            onChange={e => setContent(e.target.value)}
+            value={content}
+          />
+          {errors && errors.content && <Errors errors={errors.content} />}
+        </Group>
+        <div className="flex">
+          <Submit className="ml-auto">{submitting ? "Saving post..." : "Save post"}</Submit>
+        </div>
+      </form>
     </Layout>
   );
 };

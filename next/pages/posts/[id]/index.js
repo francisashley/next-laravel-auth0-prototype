@@ -1,50 +1,45 @@
-import Layout from "../../../components/layout";
-import Panel from "../../../components/panel";
 import Error from "next/error";
+import Layout from "../../../features/app/layout";
+import Link from "next/link";
+import PrimaryButton from "../../../features/app/primary-button";
 import { fetchPost } from "../../../lib/posts";
 import withAuth from "../../../lib/withAuth";
-import Link from "next/link";
 
 function Post({ authed, post }) {
-    if (!post) {
-        return <Error statusCode={404} />;
-    }
+  if (!post) {
+    return <Error statusCode={404} />;
+  }
 
-    return (
-        <Layout authed={authed} title={post ? post.title : ""}>
-            {post && (
-                <Panel>
-                    <div className="mb-5 flex">
-                        <div className="mr-4">
-                            <strong className="font-semibold">By</strong>{" "}
-                            <a href={`/users/` + post.author}>{post.author}</a>
-                        </div>
-                        <div>
-                            <strong className="font-semibold">Published</strong>{" "}
-                            {post.date.slice(0, 10)}
-                        </div>
-                        {authed.name === post.author && (
-                            <div className="ml-auto">
-                                <Link href={`/posts/${post.id}/edit`}>
-                                    <a className="text-xs text-white bg-blue-700 hover:bg-blue-800 block py-1 px-3 rounded">
-                                        Edit
-                                    </a>
-                                </Link>
-                            </div>
-                        )}
-                    </div>
-
-                    <p>{post.content}</p>
-                </Panel>
-            )}
-        </Layout>
-    );
+  return (
+    <Layout authed={authed} title={post.title}>
+      <div className="mb-5 flex">
+        <div className="mr-4">
+          <strong className="font-semibold">By</strong>{" "}
+          <a href={`/users/` + post.author} className="hover:underline">
+            {post.author}
+          </a>
+        </div>
+        <div>
+          <strong className="font-semibold">Published</strong> {post.date.slice(0, 10)}
+        </div>
+        {authed && authed.name === post.author && (
+          <PrimaryButton
+            href={`/posts/${post.id}/edit`}
+            className="absolute top-0 right-0 mt-5 mr-5"
+          >
+            Edit Your Post
+          </PrimaryButton>
+        )}
+      </div>
+      <p>{post.content}</p>
+    </Layout>
+  );
 }
 
 Post.getInitialProps = async ({ query }) => {
-    const post = await fetchPost(query.id);
+  const post = await fetchPost(query.id);
 
-    return { post };
+  return { post };
 };
 
 export default withAuth(Post);

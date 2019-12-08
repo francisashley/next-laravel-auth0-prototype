@@ -1,5 +1,5 @@
-import fetch from "isomorphic-unfetch";
 import auth0 from "../../../lib/auth0";
+import fetch from "isomorphic-unfetch";
 
 export default async function post(req, res) {
   const session = await auth0.getSession(req);

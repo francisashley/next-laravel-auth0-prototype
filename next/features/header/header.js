@@ -1,11 +1,18 @@
-import Link from "./active-link";
-import UserMenu from "./user-menu";
-import Logo from "./Logo";
+import AddNewPostButton from "./add-new-post";
+import AppTitle from "./title";
+import Link from "../app/active-link";
+import UserDropdown from "./user-dropdown";
+import classnames from "classnames";
 
-function Header({ authed }) {
+const Header = ({ authed, className }) => {
   return (
-    <header className="app-header py-4 flex items-center border-b-2 border-yellow-400">
-      <Logo />
+    <header
+      className={classnames(
+        "app-header py-4 flex items-center border-b-2 border-yellow-400 mb-8",
+        className
+      )}
+    >
+      <AppTitle />
       <nav className="app-nav">
         <ul className="app-nav-link flex items-center">
           <li className="app-nav-link mr-4 text-sm font-medium tracking-wide">
@@ -19,16 +26,12 @@ function Header({ authed }) {
           </li>
           {authed && (
             <li className="mr-2">
-              <Link href="/posts/new">
-                <a className="text-white bg-blue-700 hover:bg-blue-800 block py-1 px-2 text-xs font-medium tracking-wide">
-                  Create Post
-                </a>
-              </Link>
+              <AddNewPostButton href="/posts/new">Add New Post</AddNewPostButton>
             </li>
           )}
           {authed && (
             <li>
-              <UserMenu authed={authed} />
+              <UserDropdown authed={authed} />
             </li>
           )}
           {!authed && (
@@ -44,7 +47,7 @@ function Header({ authed }) {
         }
         a:hover,
         a:focus {
-          color: rgba(255, 255, 255, 0.6);
+          color: rgba(255, 255, 255, 0.8);
         }
         .app-nav-link a.active {
           color: #f6e05e;
@@ -52,6 +55,6 @@ function Header({ authed }) {
       `}</style>
     </header>
   );
-}
+};
 
 export default Header;

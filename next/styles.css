@@ -10,6 +10,6 @@ main a {
   @apply text-blue-600;
 }
 
-main a:hover {
+/* main a:hover {
   text-decoration: underline;
-}
+} */

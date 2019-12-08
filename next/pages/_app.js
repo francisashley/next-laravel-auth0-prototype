@@ -1,5 +1,6 @@
-import App from "next/app";
 import "../styles.css";
+
+import App from "next/app";
 
 export default class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {

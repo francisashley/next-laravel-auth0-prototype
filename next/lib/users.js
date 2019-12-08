@@ -1,60 +1,52 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+
 import fetch from "isomorphic-unfetch";
 
 const fetchAPI = (url, cookie) => fetch(url, cookie ? { headers: { cookie } } : {});
 
 export async function fetchMe(cookie = "") {
-    if (typeof window !== "undefined" && window.__user) {
-        return window.__user;
-    }
+  if (typeof window !== "undefined" && window.__user) {
+    return window.__user;
+  }
 
-    const res = await fetchAPI("/api/me", cookie);
+  const res = await fetchAPI("/api/me", cookie);
 
-    if (!res.ok) {
-        delete window.__user;
-        return null;
-    }
+  if (!res.ok) {
+    delete window.__user;
+    return null;
+  }
 
-    const json = await res.json();
-    if (typeof window !== "undefined") {
-        window.__user = json;
-    }
+  const json = await res.json();
+  if (typeof window !== "undefined") {
+    window.__user = json;
+  }
 
-    return json;
+  return json;
 }
 
 export async function fetchUser(username) {
-    const res = await fetchAPI("http://localhost:3000/api/users/" + username);
+  const res = await fetchAPI("http://localhost:3000/api/users/" + username);
 
-    if (!res.ok) return null;
+  if (!res.ok) return null;
 
-    const user = await res.json();
+  const user = await res.json();
 
-    return user.data;
+  return user.data;
 }
 
-export async function fetchUsers() {
-    const res = await fetch("/api/users");
+export async function fetchUsers({ limit = null } = {}) {
+  try {
+    let users = await fetch("http://localhost:3000/api/users")
+      .then(response => response.json())
+      .then(({ data }) => data)
+      .catch(error => {
+        throw error;
+      });
 
-    if (!res.ok) return [];
-
-    const users = await res.json();
-
-    return users.data;
-}
-
-export function useFetchUsers() {
-    const [users, setUsers] = useState([]);
-
-    useEffect(() => {
-        try {
-            fetchUsers().then(setUsers);
-        } catch (error) {
-            throw error;
-        }
-
-        return () => {};
-    }, []);
+    if (limit !== null) users = users.slice(0, limit);
 
     return users;
+  } catch (error) {
+    throw error;
+  }
 }
