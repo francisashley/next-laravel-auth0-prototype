@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Requests\StorePost;
 use App\Http\Requests\UpdatePost;
 use App\Http\Resources\PostResource;
@@ -19,9 +20,15 @@ class PostController extends Controller
      *
      * @return App\Http\Resources\PostCollectionResource
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts =  Post::orderByDesc('created_at')->get();
+        $limit = $request->limit !== null ? (int) $request->limit : false;
+
+        if ($limit !== false) {
+            $posts = Post::orderByDesc('created_at')->limit($limit)->get();
+        } else {
+            $posts = Post::orderByDesc('created_at')->get();
+        }
 
         return new PostCollectionResource($posts);
     }

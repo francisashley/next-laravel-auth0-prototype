@@ -15,6 +15,14 @@ export default function fetcher(url = "", options = {}) {
   // Ensure all local API requests have absolute URLs to enable use on server and client.
   url = url[0] === "/" ? "http://localhost:3000" + url : url;
 
+  // Add parameters to url
+  let params = options.params;
+  if (params) {
+    params = Object.keys(params).map(key => key + "=" + params[key]);
+    params = params.join("&");
+    url = params ? url + "?" + params : url;
+  }
+
   // Default headers
   options.headers = options.headers || {};
   options.headers = { ...options.headers, Accept: "application/json" };

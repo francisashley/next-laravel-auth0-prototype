@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserCollectionResource;
 use App\Http\Requests\UpdateUser;
@@ -18,9 +19,17 @@ class UserController extends Controller
      *
      * @return App\Http\Resources\UserCollectionResource
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new UserCollectionResource(User::all());
+        $limit = $request->limit !== null ? (int) $request->limit : false;
+
+        if ($limit !== false) {
+            $users = User::limit($limit)->get();
+        } else {
+            $users = User::all();
+        }
+
+        return new UserCollectionResource($users);
     }
 
     /**

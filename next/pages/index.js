@@ -28,9 +28,9 @@ function Home({ authed, posts }) {
 }
 
 Home.getInitialProps = async ({ req, res, query }) => {
-  let { data: posts } = await fetcher("/api/posts").get();
+  let { data: posts } = await fetcher("/api/posts?limit=5").get();
 
-  return { posts: posts.slice(0, 5) };
+  return { posts };
 };
 
 export default withAuth(Home);

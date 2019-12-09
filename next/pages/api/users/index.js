@@ -7,7 +7,7 @@ export default async function me(req, res) {
    * GET USERS
    */
 
-  let { status, data, error } = await fetcher(url).get();
+  let { status, data, error } = await fetcher(url, { params: req.query }).get();
 
   if (error) {
     console.error(error);
