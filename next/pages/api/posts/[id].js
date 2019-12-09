@@ -1,49 +1,38 @@
 import auth0 from "../../../lib/auth0";
-import fetch from "isomorphic-unfetch";
+import fetcher from "../../../lib/fetcher";
 
 export default async function post(req, res) {
+  const url = `http://localhost:8000/api/v1/posts/${req.query.id}`;
   const session = await auth0.getSession(req);
-  const accessToken = session ? session.accessToken : "";
+  const accessToken = session && session.accessToken;
+
+  /**
+   * GET POST
+   */
 
   if (req.method === "GET") {
-    try {
-      let response = await fetch("http://localhost:8000/api/v1/posts/" + req.query.id);
+    let { status, data, error } = await fetcher(url).get();
 
-      if (!response.ok && response.status !== 404) {
-        throw statusText;
-      }
-
-      if (!response.ok) {
-        res.json({ data: null });
-      }
-
-      let post = await response.json();
-      res.json({ data: post.data });
-    } catch (error) {
-      res.end(error);
-    }
-  } else if (req.method === "PATCH") {
-    let response = await fetch("http://localhost:8000/api/v1/posts/" + req.query.id, {
-      method: "patch",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        authorization: "Bearer " + accessToken
-      },
-      body: JSON.stringify(req.body)
-    });
-
-    if (!response.ok) {
-      if (response.status === 401) {
-        return res.status(response.status).json(response.statusText);
-      } else if (response.status === 422) {
-        return res.status(response.status).json(await response.json());
-      }
-      return res.status(response.status).json(await response.json());
+    if (error) {
+      console.error(error);
+      return res.status(status).json(error);
     }
 
-    const post = await response.json().then(response => response.data);
+    return res.json({ data });
+  }
 
-    res.json({ data: post });
+  /**
+   * PATCH POST
+   */
+
+  if (req.method === "PATCH") {
+    let { status, data, error } = await fetcher(url, { accessToken }).patch(req.body);
+
+    if (error) {
+      console.error(error);
+      return res.status(status).json(error);
+    }
+
+    res.json({ data });
   }
 }

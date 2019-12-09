@@ -3,8 +3,7 @@ import React, { useState } from "react";
 
 import Layout from "../../../features/app/layout";
 import Router from "next/router";
-import api from "../../../lib/api";
-import { fetchPost } from "../../../lib/posts";
+import fetcher from "../../../lib/fetcher";
 import withAuth from "../../../lib/withAuth";
 
 const EditPost = ({ authed, post }) => {
@@ -17,21 +16,15 @@ const EditPost = ({ authed, post }) => {
     e.preventDefault();
 
     setSubmitting(true);
-    let response = await api.patch("/api/posts/" + post.id, {
-      title: e.target.title.value,
-      content: e.target.content.value
-    });
+    const data = { title, content };
+    const { status, data: updatedPost, error } = await fetcher(`/api/posts/${post.id}`).patch(data);
     setSubmitting(false);
 
-    if (!response.ok && response.status === 401) {
-      return setErrors({ authed: false });
-    } else if (!response.ok) {
-      return setErrors(await response.json().then(response => response.errors));
-    }
+    if (status === 401) return setErrors({ authed: false });
 
-    setErrors(null);
-    post = await response.json().then(response => response.data);
-    Router.push("/posts/" + post.id);
+    if (error) return setErrors(error.errors);
+
+    Router.push("/posts/" + updatedPost.id);
   };
 
   return (
@@ -71,7 +64,7 @@ const EditPost = ({ authed, post }) => {
 EditPost.getInitialProps = async ({ query, authed }) => {
   if (!authed) return { redirect: "/api/login" };
 
-  const post = await fetchPost(query.id);
+  const { data: post } = await fetcher("http://localhost:3000/api/posts/" + query.id).get();
 
   if (post.author !== authed.name) return { redirect: "/api/login" };
 

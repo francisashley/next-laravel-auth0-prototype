@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import Layout from "../../features/app/layout";
 import Router from "next/router";
-import api from "../../lib/api";
+import fetcher from "../../lib/fetcher";
 import withAuth from "../../lib/withAuth";
 
 const CreatePost = ({ authed }) => {
@@ -16,18 +16,13 @@ const CreatePost = ({ authed }) => {
     e.preventDefault();
 
     setSubmitting(true);
-    const data = { title: e.target.title.value, content: e.target.content.value };
-    const response = await api.post("/api/posts", data);
+    const { status, data: post, error } = await fetcher(`/api/posts`).post({ title, content });
     setSubmitting(false);
 
-    if (!response.ok && response.status === 401) {
-      return setErrors({ authed: false });
-    } else if (!response.ok) {
-      return setErrors(await response.json());
-    }
+    if (status === 401) return setErrors({ authed: false });
 
-    setErrors(null);
-    const post = await response.json().then(response => response.data);
+    if (error) return setErrors(error.errors);
+
     Router.push("/posts/" + post.id);
   };
 

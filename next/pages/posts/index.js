@@ -1,7 +1,7 @@
 import Layout from "../../features/app/layout";
 import Link from "next/link";
 import PrimaryButton from "../../features/app/primary-button";
-import { fetchPosts } from "../../lib/posts";
+import fetcher from "../../lib/fetcher";
 import withAuth from "../../lib/withAuth";
 
 function Posts({ authed, posts }) {
@@ -32,7 +32,7 @@ function Posts({ authed, posts }) {
 }
 
 Posts.getInitialProps = async ({ req, res, query }) => {
-  const posts = await fetchPosts();
+  const { data: posts } = await fetcher("/api/posts").get();
 
   return { posts };
 };

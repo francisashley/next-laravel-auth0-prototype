@@ -1,10 +1,9 @@
 import auth0 from "../../lib/auth0";
-import fetch from "isomorphic-unfetch";
 import manager from "../../lib/manager";
 
 export default async function me(req, res) {
   /**
-   * Get authed user
+   * GET AUTHED USER
    */
   if (req.method === "GET") {
     try {
@@ -17,7 +16,7 @@ export default async function me(req, res) {
   }
 
   /**
-   * Update authed user
+   * UPDATE AUTHED USER
    */
   if (req.method === "PATCH") {
     try {
@@ -30,7 +29,7 @@ export default async function me(req, res) {
   }
 
   /**
-   * Request not found
+   * REQUEST NOT FOUND
    */
   res.status(404).end();
 }

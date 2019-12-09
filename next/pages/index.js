@@ -1,6 +1,6 @@
 import Layout from "../features/app/layout";
 import Link from "next/link";
-import { fetchPosts } from "../lib/posts";
+import fetcher from "../lib/fetcher";
 import withAuth from "../lib/withAuth";
 
 function Home({ authed, posts }) {
@@ -28,9 +28,9 @@ function Home({ authed, posts }) {
 }
 
 Home.getInitialProps = async ({ req, res, query }) => {
-  const posts = await fetchPosts({ limit: 5 });
+  let { data: posts } = await fetcher("/api/posts").get();
 
-  return { posts };
+  return { posts: posts.slice(0, 5) };
 };
 
 export default withAuth(Home);

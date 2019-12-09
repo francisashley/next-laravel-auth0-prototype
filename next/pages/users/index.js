@@ -1,6 +1,6 @@
 import Layout from "../../features/app/layout";
 import Link from "next/link";
-import { fetchUsers } from "../../lib/users";
+import fetcher from "../../lib/fetcher";
 import withAuth from "../../lib/withAuth";
 
 function Users({ authed, users }) {
@@ -21,7 +21,7 @@ function Users({ authed, users }) {
 }
 
 Users.getInitialProps = async ({ req, res, query }) => {
-  const users = await fetchUsers();
+  const { data: users } = await fetcher("/api/users").get();
 
   return { users };
 };

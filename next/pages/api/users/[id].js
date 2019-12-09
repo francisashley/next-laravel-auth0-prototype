@@ -1,20 +1,20 @@
-import fetch from "isomorphic-unfetch";
+import fetcher from "../../../lib/fetcher";
 
 export default async function user(req, res) {
-    try {
-        let response = await fetch("http://localhost:8000/api/v1/users/" + req.query.id);
+  const url = `http://localhost:8000/api/v1/users/${req.query.id}`;
 
-        if (!response.ok && response.status !== 404) {
-            throw statusText;
-        }
+  /**
+   * GET USER
+   */
 
-        if (!response.ok) {
-            res.json({ data: null });
-        }
+  if (req.method === "GET") {
+    let { status, data, error } = await fetcher(url).get();
 
-        let user = await response.json();
-        res.json({ data: user.data });
-    } catch (error) {
-        res.end(error);
+    if (error) {
+      console.error(error);
+      return res.status(status).json(error);
     }
+
+    return res.json({ data });
+  }
 }

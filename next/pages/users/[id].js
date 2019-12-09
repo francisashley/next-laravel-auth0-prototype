@@ -4,8 +4,7 @@ import React, { useState } from "react";
 import Error from "next/error";
 import Layout from "../../features/app/layout";
 import Link from "next/link";
-import { fetchPosts } from "../../lib/posts";
-import { fetchUser } from "../../lib/users";
+import fetcher from "../../lib/fetcher";
 import withAuth from "../../lib/withAuth";
 
 function Profile({ authed = {}, posts = [], user }) {
@@ -25,7 +24,7 @@ function Profile({ authed = {}, posts = [], user }) {
         <div className="border-l pl-8">
           <h1 className="text-4xl font-medium">{user.username}</h1>
           <small className="text-gray-700">{user.sub}</small>
-          <hr class="my-6" />
+          <hr className="my-6" />
           <h2 className="text-l mb-4">
             {authed && authed.name === user.username
               ? `My posts x ${user.posts_count}`
@@ -80,7 +79,7 @@ function Profile({ authed = {}, posts = [], user }) {
             </div>
           </div>
           <div className="flex">
-            <div class="w-1/3"></div>
+            <div className="w-1/3"></div>
             <Submit>{!submitting ? "Save Settings" : "Saving..."}</Submit>
           </div>
         </form>
@@ -90,8 +89,10 @@ function Profile({ authed = {}, posts = [], user }) {
 }
 
 Profile.getInitialProps = async ({ req, res, query }) => {
-  const posts = await fetchPosts({ author: query.id });
-  const user = await fetchUser(query.id);
+  let { data: posts } = await fetcher("/api/posts").get();
+  let { data: user } = await fetcher("/api/users/" + query.id).get();
+
+  posts = posts.filter(post => post.author === query.id);
 
   return { posts, user };
 };

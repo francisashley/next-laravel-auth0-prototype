@@ -2,7 +2,7 @@ import Error from "next/error";
 import Layout from "../../../features/app/layout";
 import Link from "next/link";
 import PrimaryButton from "../../../features/app/primary-button";
-import { fetchPost } from "../../../lib/posts";
+import fetcher from "../../../lib/fetcher";
 import withAuth from "../../../lib/withAuth";
 
 function Post({ authed, post }) {
@@ -37,7 +37,7 @@ function Post({ authed, post }) {
 }
 
 Post.getInitialProps = async ({ query }) => {
-  const post = await fetchPost(query.id);
+  const { data: post } = await fetcher("/api/posts/" + query.id).get();
 
   return { post };
 };
